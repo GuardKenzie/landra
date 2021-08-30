@@ -1,11 +1,15 @@
 const fs = require('fs');
+const Sequelize = require('sequelize');
 const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('./config.json');
 
 // Create a new client instance
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS] });
 
-// Commands collection
+
+/*
+    === Read command files ===
+*/
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -17,8 +21,9 @@ for (const file of commandFiles) {
 }
 
 
-// Read event files
-
+/*
+    === Read event files ===
+*/
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
@@ -34,7 +39,9 @@ for (const file of eventFiles) {
 }
 
 
-// Read button files
+/*
+    === Read button files ===
+*/
 client.buttons = new Collection();
 const buttonFiles = fs.readdirSync('./buttons').filter(file => file.endsWith('.js'));
 
