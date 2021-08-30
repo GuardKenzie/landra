@@ -1,3 +1,4 @@
 .eslint.json
 config.json
 node_modules
+events.db
