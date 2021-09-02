@@ -82,6 +82,22 @@ class EventsHandler {
     }
 
 
+    async getEventsBetween(guild, start_date, end_date) {
+        // Get all the events that are happening in guild
+        // between start_date and end_date
+        const events = await this.Events.findAll({
+            where: {
+                guild_id: guild.id,
+                date: {
+                    [Op.between]: [start_date, end_date]
+                }
+            }
+        });
+
+        return events;
+    }
+
+
     async getParty(event_id) {
         // Get the party for a particular event
         const party = await this.Users.findAll({
