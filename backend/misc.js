@@ -55,7 +55,18 @@ async function generateEventsList(guild, page) {
             display_names.push("Nobody");
         }
 
-        const date_string = moment(event_entry.date).format("MMM Do [at] kk:mm");
+        // Set the appropriate date format
+        const date_format = 
+            event_entry.recurring == "weekly" ? (
+                "dddd[s at] kk:mm"
+            )
+            : event_entry.recurring == "monthly" ? (
+                        "[The] Do [of every month at] kk:mm"
+            )
+            : "MMM Do [at] kk:mm"
+
+        const date_string = moment(event_entry.date).format(date_format);
+
 
         // Update embed
         embed.addFields(
