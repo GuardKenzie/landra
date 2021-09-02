@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const Crypto = require('crypto');
 
+// A class that handles all database operations. Methods:
 
 class EventsHandler {
     constructor() {
@@ -21,7 +22,14 @@ class EventsHandler {
             event_id: {
                 type: Sequelize.STRING,
                 unique: true
-            }
+            },
+            recurring:  Sequelize.STRING
+        });
+
+        this.Channels = this.sequelize.define('channels', {
+            guild_id:   Sequelize.STRING,
+            type:       Sequelize.STRING,
+            channel_id: Sequelize.STRING
         });
 
         this.Users = this.sequelize.define('users', {
@@ -30,18 +38,20 @@ class EventsHandler {
         });
 
         this.Users.sync();
-        this.Events.sync();
+        this.Events.sync({ alter: true });
+        this.Channels.sync();
     }
 
-    async newEvent(guild, name, description, date) {
+    async newEvent(guild, name, description, date, recurring) {
         const event_id = Crypto.randomBytes(32).toString('hex');
-
+        
         const event = await this.Events.create({
             guild_id: guild.id,
             name: name,
             description: description,
             date: date,
-            event_id: event_id
+            event_id: event_id,
+            recurring: recurring
         });
 
         return event;
@@ -151,6 +161,57 @@ class EventsHandler {
         });
 
         return purge;
+    }
+
+    
+    async getChannelType(channel) {
+        // Gets all types associated with the channel
+        const types = await this.Channels.findAll({
+            attributes: ['type'],
+            where: {
+                guild_id:   channel.guild.id,
+                channel_id: channel.id
+            } 
+        });
+
+        return types
+    }
+
+
+    async addChannelType(channel, type) {
+        // Sets the channel type to type
+        const channel_type = await this.Channels.create({
+            guild_id:   channel.guild.id,
+            channel_id: channel.id,
+            type:       type
+        });
+
+        return channel_type
+    }
+
+
+    async removeChannelType(channel, type) {
+        // Removes a channel type from channel
+        const remove_type = await this.Channels.destroy({
+            where: {
+                type:       type,
+                channel_id: channel.id,
+                guild_id:   channel.guild.id
+            }
+        });
+
+        return remove_type
+    }
+
+
+    async updateEvent(event_id, data) {
+        const update = await this.Events.update(data, {
+            where: {
+                event_id:   event_id
+            }
+        });
+
+        return update
     }
 }
 
