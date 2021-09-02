@@ -7,8 +7,8 @@
 
 ## To-Do
 - [x] Add the ability to update events
-- [ ] Add a task that checks if events are happening and posts notices
-- [ ] Add recurring events
+- [x] Add a task that checks if events are happening and posts notices
+- [x] Add recurring events
 - [ ] Roles?
 - [ ] Configuration for roles that can manage events
 - [ ] Daily reminders?
