@@ -24,6 +24,13 @@ module.exports = {
             option.setName('description')
                 .setDescription('Description for the event')
                 .setRequired(true)    
+        )
+
+        .addStringOption(option =>
+            option.setName('recurring')
+                .setDescription('How often do you want your event to repeat?')
+                .addChoice("Weekly", "weekly")
+                .addChoice("Monthly", "monthly")
         ),
 
     
@@ -37,6 +44,7 @@ module.exports = {
         const description = interaction.options.getString('description');
         const date_string = interaction.options.getString('date');
         const date        = moment(date_string, date_format);
+        const recurring   = interaction.options.getString('recurring');
 
         if (isNaN(date)) {
             // Check if the date is valid
@@ -58,12 +66,30 @@ module.exports = {
             return
         }
 
+        // Check if event is recurring monthly and if so, its day of the month
+        // is less than 28
+        if (recurring == "monthly" && date.date() > 28) {
+            await interaction.reply({
+                content: "You cannot schedule a monthly event for later than the 28th of the month",
+                ephemeral: true
+            });
+
+            return;
+        }
+
         // Schedule event
-        event_handler = new EventsHandler()
-        event_reply = await event_handler.newEvent(interaction.guild, event_name, description, date);
+        const event_handler = new EventsHandler()
+        const event_reply = await event_handler.newEvent(
+            interaction.guild, 
+            event_name, 
+            description, 
+            date,
+            recurring
+        );
 
         await interaction.reply({
-            content: `Success!`
+            content: `Event \`${event_name}\` scheduled for \`${date}\`!`,
+            ephemeral: true
         })
 
     }
