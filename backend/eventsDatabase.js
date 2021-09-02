@@ -204,6 +204,14 @@ class EventsHandler {
     }
 
 
+    async getAllChannels() {
+        // Gets everything in the Channels table
+        const channels = await this.Channels.findAll();
+
+        return channels
+    }
+
+
     async addChannelType(channel, type) {
         // Sets the channel type to type
         const channel_type = await this.Channels.create({
