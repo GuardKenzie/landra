@@ -11,4 +11,5 @@
 - [x] Add recurring events
 - [ ] Roles?
 - [ ] Configuration for roles that can manage events
-- [ ] Daily reminders?
+- [x] Daily reminders
+- [ ] Time offsets

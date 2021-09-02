@@ -53,14 +53,60 @@ async function generateNotification(entry, guild, type) {
 }
 
 
-async function postEventNotifications(client) {
+async function postDailyNotifications(client) {
     // Init events handler
     const events_handler = new EventsHandler();
 
     const all_channels = await events_handler.getAllChannels()
 
-    const now_notification_messages  = []
-    const hour_notification_messages = []
+    for (entry of all_channels) {
+        // Init
+        const guild   = await client.guilds.fetch(entry.guild_id);
+        const channel = await guild.channels.fetch(entry.channel_id);
+
+        // We don't want daily channels
+        if (entry.type != "daily") continue;
+
+        // Get this day
+        const now = new Date();
+
+        // TODO: Add a check for custom times
+        if (!(now.getHours() == 10 && now.getMinutes() == 00)) return
+
+        // Get tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1)
+
+        // Get all events happening today
+        const all_events = await events_handler.getEventsBetween(guild, now, tomorrow);
+
+        // Aggregate all messages
+        const message_contents = [":envelope:  **__TODAY'S SCHEDULE__**  :envelope:"]
+        for (entry of all_events) {
+            const date = moment(entry.date)
+            const emoji_hour = date.format("hh")
+            console.log(date.minutes())
+
+            const emoji = date.minute() >= 30 ? `:clock${emoji_hour}30:` : `:clock${emoji_hour}:`;
+
+            message_contents.push(
+                `${emoji}\t\t**${entry.name}** at ${date.format("kk:mm")}`
+            )
+        }
+
+        // Send message
+        await channel.send({
+            content: message_contents.join("\n\n")
+        });
+    }
+}
+
+
+async function postEventNotifications(client) {
+    // Init events handler
+    const events_handler = new EventsHandler();
+
+    const all_channels = await events_handler.getAllChannels()
 
     // Loop over channel and handle each
     for (entry of all_channels) {
@@ -245,4 +291,4 @@ async function generateEventsList(guild, page) {
     return embed
 }
 
-module.exports = { postEventNotifications ,generateEventsList, getPageFromEventsList, parseDate };
+module.exports = { postDailyNotifications, postEventNotifications ,generateEventsList, getPageFromEventsList, parseDate };

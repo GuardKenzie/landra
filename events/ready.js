@@ -1,4 +1,4 @@
-const { postEventNotifications } = require("../backend/misc");
+const { postEventNotifications, postDailyNotifications } = require("../backend/misc");
 const { setIntervalAsync } = require('set-interval-async/fixed');
 
 module.exports = {
@@ -8,6 +8,13 @@ module.exports = {
     async execute(client) {
 		console.log(`Ready! Logged in as ${client.user.tag}`);
 
-		const interval = setIntervalAsync(postEventNotifications, 1000, client);
+		console.log("\nStarting loops")
+		// Start event notification loop
+		console.log("STARTING:	Event notification loop")
+		setIntervalAsync(postEventNotifications, 1000, client);
+
+		// Start daily notification loop
+		console.log("STARTING:	Daily notification loop")
+		setIntervalAsync(postDailyNotifications, 60 * 1000, client);
 	},
 };
