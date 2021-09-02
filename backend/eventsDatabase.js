@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const Crypto = require('crypto');
 
 // A class that handles all database operations. Methods:
