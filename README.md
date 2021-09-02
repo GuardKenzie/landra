@@ -10,3 +10,5 @@ As of the winter of 1152, following Rand's grim injuries, Landra was promoted by
 - [ ] Add the ability to update events
 - [ ] Add a task that checks if events are happening and posts notices
 - [ ] Add recurring events
+- [ ] Roles?
+- [ ] Configuration for roles that can manage events
