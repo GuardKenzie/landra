@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const EventsHandler = require('../backend/eventsDatabase');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -66,10 +67,22 @@ module.exports = {
         ),
 
     async execute(interaction) {
-        // Pong back
-        await interaction.reply({
-            content: 'Pong!'
-        });
-        return true
+        // Init
+        const group = interaction.options.getSubcommandGroup();
+        const subcommand = interaction.options.getSubcommand();
+        const events_handler = new EventsHandler();
+
+        if (group == 'channel') {
+            const channel = await interaction.options.getChannel("channel");
+            const type    = await interaction.options.getString("type");
+            if (subcommand == "set") {
+                // Process the channel set command
+                await events_handler.addChannelType(channel, type);
+                
+                await interaction.reply({
+                    content: `${channel} has been set to \`${type}\``
+                })
+            }
+        }
     },
 };
