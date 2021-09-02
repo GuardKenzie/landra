@@ -1,0 +1,34 @@
+const EventsHandler = require('../backend/eventsDatabase');
+const { generateEventsList, getPageFromEventsList } = require('../backend/misc');
+
+module.exports = {
+	name: 'remove_menu',
+
+    async execute(interaction) {
+        // Init
+        const events_handler = new EventsHandler();
+
+        // Remove event
+        await events_handler.deleteEvent(interaction.values[0]);
+        
+        // Get event list message
+        const parent_message_id = interaction.message.reference.messageId;
+        const parent_message = await interaction.channel.messages.fetch(parent_message_id);
+
+        // Get the page
+        const page = getPageFromEventsList(parent_message);
+
+        const embed = await generateEventsList(interaction.guild, page);
+
+        // Update event list
+        await parent_message.edit({
+            embeds: [embed]
+        });
+
+        // Update join list
+        await interaction.update({
+            content: "Event removed!",
+            components: []
+        })
+	},
+};

@@ -11,9 +11,9 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
     === Read command files ===
 */
 client.commands = new Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const command_files = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-for (const file of commandFiles) {
+for (const file of command_files) {
     // Loop over command fiels and add them to the bot
     const command = require(`./commands/${file}`);
 
@@ -24,9 +24,9 @@ for (const file of commandFiles) {
 /*
     === Read event files ===
 */
-const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+const event_files = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
-for (const file of eventFiles) {
+for (const file of event_files) {
     // Loop over event files and register them
     const event = require(`./events/${file}`);
 
@@ -43,15 +43,28 @@ for (const file of eventFiles) {
     === Read button files ===
 */
 client.buttons = new Collection();
-const buttonFiles = fs.readdirSync('./buttons').filter(file => file.endsWith('.js'));
+const button_files = fs.readdirSync('./buttons').filter(file => file.endsWith('.js'));
 
-for (const file of buttonFiles) {
+for (const file of button_files) {
     // Liioop over button files and register them
     const button = require(`./buttons/${file}`);
 
     client.buttons.set(button.name, button);
 }
 
+
+/*
+    === Read select menu files ===
+*/
+client.select_menus = new Collection();
+const select_menu_files = fs.readdirSync('./menus').filter(file => file.endsWith('.js'));
+
+for (const file of select_menu_files) {
+    // Loop over button files and register them
+    const select_menu = require(`./menus/${file}`);
+
+    client.select_menus.set(select_menu.name, select_menu);
+}
 
 // Log in
 client.login(token);

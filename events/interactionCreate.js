@@ -32,7 +32,22 @@ module.exports = {
             catch (error) {
                 console.error(error);
                 await interaction.reply({
-                    content: "There was an error while executing your command :sad:",
+                    content: "There was an error while executing your button :sad:",
+                    ephemeral: true
+                })
+            }
+        }
+
+        else if (interaction.isSelectMenu()) {
+            const select_menu = interaction.client.select_menus.get(interaction.customId);
+
+            try {
+                await select_menu.execute(interaction);
+            }
+            catch (error) {
+                console.error(error);
+                await interaction.reply({
+                    content: "There was an error while executing your selection :sad:",
                     ephemeral: true
                 })
             }
