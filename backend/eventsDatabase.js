@@ -38,7 +38,7 @@ class EventsHandler {
         });
 
         this.Users.sync();
-        this.Events.sync({ alter: true });
+        this.Events.sync();
         this.Channels.sync();
     }
 
@@ -69,6 +69,16 @@ class EventsHandler {
         });
 
         return event_list;
+    }
+
+
+    async getEvent(event_id) {
+        // Get the event with event_id
+        const event_result = await this.Events.findOne({
+            where: { event_id: event_id }
+        });
+
+        return event_result
     }
 
 
