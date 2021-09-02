@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageActionRow, MessageSelectMenu, MessageButton, Interaction } = require('discord.js');
 const EventsHandler = require('../backend/eventsDatabase');
-const moment = require('moment');
+const { parseDate } = require('../backend/misc');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -35,51 +34,30 @@ module.exports = {
 
     
     async execute(interaction) {
-        // Init valeus
-        const date_format = "YYYY/MM/DD kk:mm";
-        const now = new Date();
-
         // Get and parse options
+        const date_string = interaction.options.getString('date');
         const event_name  = interaction.options.getString('name');
         const description = interaction.options.getString('description');
-        const date_string = interaction.options.getString('date');
-        const date        = moment(date_string, date_format);
         const recurring   = interaction.options.getString('recurring');
 
-        if (isNaN(date)) {
-            // Check if the date is valid
+        // Check if the date is valid
+        const date_status = parseDate(date_string, recurring);
+
+        if (!date_status.valid) {
             await interaction.reply({
-                content: `The provided date: \`${date_string}\` is invalid. Please try again`,
-                ephemeral: true
-            });
-
-            return
-        }
-
-        if (date < now) {
-            // Check if the date is in the past
-            await interaction.reply({
-                content: `The provided date: \`${date_string}\` is in the past. Please try again`,
-                ephemeral: true
-            });
-
-            return
-        }
-
-        // Check if event is recurring monthly and if so, its day of the month
-        // is less than 28
-        if (recurring == "monthly" && date.date() > 28) {
-            await interaction.reply({
-                content: "You cannot schedule a monthly event for later than the 28th of the month",
+                content: date_status.error,
                 ephemeral: true
             });
 
             return;
         }
 
+        // Set date since it is ok
+        const date = date_status.date;
+
         // Schedule event
         const event_handler = new EventsHandler()
-        const event_reply = await event_handler.newEvent(
+        await event_handler.newEvent(
             interaction.guild, 
             event_name, 
             description, 

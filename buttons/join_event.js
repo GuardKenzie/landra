@@ -30,8 +30,10 @@ module.exports = {
                 // We can only join events we haven't already
                 event_options.push({
                     label: event.name,
-                    value: event.event_id
-                });
+                    value: event.event_id,
+                    description: event.description.substring(0, 50) +
+                        (event.description.length > 50 ? "..." : "")
+                })
             }
         }
 

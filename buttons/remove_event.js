@@ -14,7 +14,9 @@ module.exports = {
         const event_options = all_events.map(event => {
             return {
                 label: event.name,
-                value: event.event_id
+                value: event.event_id,
+                description: event.description.substring(0, 50) +
+                        (event.description.length > 50 ? "..." : "")
             }
         })
 

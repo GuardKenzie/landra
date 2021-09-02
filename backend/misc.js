@@ -20,6 +20,50 @@ function getPageFromEventsList(message) {
 }
 
 
+function parseDate(date_string, recurring) {
+    // null date_string is valid
+    if (date_string == null) return { valid: true, date: null }
+
+    const now = new Date();
+    
+    // Parse date
+    const date_format = "YYYY/MM/DD kk:mm";
+    const date        = moment(date_string, date_format);
+
+    console.log(date_string)
+    
+    // Checks if a date is valid and returns an appropriate error
+    // message if not
+
+    if (isNaN(date)) {
+        // Check if the date is valid
+        return {
+            valid: false,
+            error: `The provided date: \`${date_string}\` is invalid. Please try again`,
+        };
+    }
+
+    if (date < now) {
+        // Check if the date is in the past
+        return {
+            valid: false,
+            error: `The provided date: \`${date_string}\` is in the past. Please try again`,
+        }
+    }
+
+    // Check if event is recurring monthly and if so, its day of the month
+    // is less than 28
+    if (recurring == "monthly" && date.date() > 28) {
+        return {
+            valid: false,
+            error: "You cannot schedule a monthly event for later than the 28th of the month",
+        }
+    }
+
+    return { valid: true, date: date };
+}
+
+
 async function generateEventsList(guild, page) {
     // Get all events
     const events_handler = new EventsHandler();
@@ -91,4 +135,4 @@ async function generateEventsList(guild, page) {
     return embed
 }
 
-module.exports = { generateEventsList, getPageFromEventsList };
+module.exports = { generateEventsList, getPageFromEventsList, parseDate };
