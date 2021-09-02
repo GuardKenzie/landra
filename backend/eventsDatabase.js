@@ -75,11 +75,13 @@ class EventsHandler {
     }
 
 
-    async getEventsOfUser(user_id) {
+    async getEventsOfUser(user) {
+        // Get all the events ids of events the user with user_id
+        // has joined
         const events = await this.Users.findAll({
             attributes: ['event_id'],
             where: {
-                user_id: user_id
+                user_id: user.id
             } 
         });
 
@@ -88,8 +90,7 @@ class EventsHandler {
 
 
     async joinEvent(user, event_id) {
-        // Add the user with user_id to the event with
-        // event_id
+        // Add the user with user_id to the event with event_id
         const join = await this.Users.create({
             event_id: event_id,
             user_id: user.id
@@ -132,8 +133,9 @@ class EventsHandler {
 
 
     async purgeFromGuild(guild, user) {
+        // Removes this user from all events scheduled int the guild
         const events = await this.getAllEvents(guild.id).forEach(async event => {
-            await this.leave(user.id, event.event_id)
+            await this.leaveEvent(user, event.event_id)
         });
 
         return events;
@@ -141,6 +143,7 @@ class EventsHandler {
 
 
     async purgeUser(user) {
+        // Purges all entries with user's id in the database
         const purge = await this.Users.destroy({
             where: {
                 user_id: user.id
