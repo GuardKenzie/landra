@@ -94,6 +94,9 @@ async function generateEventsList(guild, page) {
             display_names.push(member.displayName);
         }
 
+        // Party count
+        const party_count = display_names.length
+
         // Check if names are empty
         if (!display_names.length) {
             display_names.push("Nobody");
@@ -120,7 +123,7 @@ async function generateEventsList(guild, page) {
                 inline: true
             },
             {
-                name: "Party",
+                name: `Party (${party_count})`,
                 value: display_names.join("\n"),
                 inline: true
             },
