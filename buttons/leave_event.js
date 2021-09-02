@@ -13,8 +13,17 @@ module.exports = {
         const all_events = await events_handler.getAllEvents(interaction.guild)
 
         // Get all events that user has joined
-        const user_id = interaction.member.id;
-        const joined_events = await events_handler.getEventsOfUser(user_id);
+        const joined_events = await events_handler.getEventsOfUser(interaction.member);
+
+        if (joined_events.length == 0) {
+            // Check if the user has any events to leave
+            await interaction.reply({
+                content: "You have not joined any events yet!",
+                ephemeral: true
+            });
+
+            return
+        } 
 
         for (const event of all_events) {
             if (joined_events.includes(event.event_id)) {
