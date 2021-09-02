@@ -239,6 +239,7 @@ class EventsHandler {
 
 
     async updateEvent(event_id, data) {
+        // Updates event with the data provided
         const update = await this.Events.update(data, {
             where: {
                 event_id:   event_id
@@ -246,6 +247,27 @@ class EventsHandler {
         });
 
         return update
+    }
+
+
+    async handleEventNotification(event_id) {
+        // Get the event
+        const event = await this.getEvent(event_id);
+
+        // Check if the event is recurring or not and update date if it is
+        if (event.recurring == "weekly") {
+            event.date.setDate(event.date.getDate() + 7);
+            await this.updateEvent(event_id, { date: event.date });
+        }
+        else if (event.recurring == "monthly") {
+            event.date.setMonth(event.date.getMonth() + 1);
+            await this.updateEvent(event_id, { date: event.date });
+        }
+        else {
+            await this.deleteEvent(event_id);
+        }
+
+        console.log(event.recurring)
     }
 }
 

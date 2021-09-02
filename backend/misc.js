@@ -1,8 +1,115 @@
 const EventsHandler = require('./eventsDatabase');
 const { MessageEmbed } = require('discord.js');
 const moment = require('moment');
+const wait = require('util').promisify(setTimeout);
 
 const event_regex = /Events \(page (?<page_string>\d+|NaN)\/\d+\)/
+
+async function generateNotification(entry, guild, type) {
+    // Init events handler
+    const events_handler = new EventsHandler();
+
+    // Get party
+    const party_list = await events_handler.getParty(entry.event_id);
+
+    // Get display names and mentions
+    const display_names = []
+    const mentions = []
+
+    for (user_id of party_list) {
+        const member = await guild.members.fetch(user_id);
+
+        display_names.push(member.displayName);
+        mentions.push(member.toString())
+    }
+
+    // Party count
+    const party_count = display_names.length
+
+    // Check if names are empty
+    if (!display_names.length) {
+        display_names.push("Nobody");
+        mentions.push("Please someone join :(")
+    }
+
+    // Embed title
+    const embed_title = type == 1 ? `${entry.name} is starting in an hour` : `${entry.name} is starting now!`
+
+    // Init embed
+    const embed = new MessageEmbed()
+        .setTitle(embed_title)
+        .addFields(
+            {
+                name: "Description",
+                value: entry.description
+            },
+            {
+                name: `Party (${party_count})`,
+                value: display_names.join("\n")
+            }
+        );
+    
+    return { content: mentions.join(" "), embeds: [embed] };
+}
+
+
+async function postEventNotifications(client) {
+    // Init events handler
+    const events_handler = new EventsHandler();
+
+    const all_channels = await events_handler.getAllChannels()
+
+    const now_notification_messages  = []
+    const hour_notification_messages = []
+
+    // Loop over channel and handle each
+    for (entry of all_channels) {
+        // Init
+        const guild   = await client.guilds.fetch(entry.guild_id);
+        const channel = await guild.channels.fetch(entry.channel_id);
+        const now     = new Date()
+
+        // In 1 minute
+        const in_a_minute = new Date()
+        in_a_minute.setMinutes(now.getMinutes() + 1)
+
+        const events_now = await events_handler.getEventsBetween(guild, now, in_a_minute);
+
+        // Generate and send notifications
+        for (entry of events_now) {
+            const message_data = await generateNotification(entry, guild, 0);
+
+            // Send message
+            await channel.send(message_data)
+                .then(msg => {
+                    setTimeout(() => msg.delete(), 5 * 60 * 1000);
+                });
+
+            // Handle deleting or updating event
+            await events_handler.handleEventNotification(entry.event_id)
+        }
+
+        // In 1 hour
+        const now_after_hour        = now
+        const now_after_hour_minute = now_after_hour
+
+        now_after_hour.setHours(now_after_hour.getHours() + 1)
+        now_after_hour_minute.setMinutes(now_after_hour.getMinutes() + 1)
+
+        const events_in_hour = await events_handler.getEventsBetween(guild, now_after_hour, now_after_hour_minute);
+
+        // Generate and send notifications
+        for (entry of events_in_hour) {
+            const message_data = await generateNotification(entry, guild, 1);
+
+            // Send message
+            await channel.send(message_data)
+                .then(msg => {
+                    setTimeout(() => msg.delete(), 60 * 60 * 1000);
+                });
+        }
+    }
+}
 
 
 function getPageFromEventsList(message) {
@@ -138,4 +245,4 @@ async function generateEventsList(guild, page) {
     return embed
 }
 
-module.exports = { generateEventsList, getPageFromEventsList, parseDate };
+module.exports = { postEventNotifications ,generateEventsList, getPageFromEventsList, parseDate };
