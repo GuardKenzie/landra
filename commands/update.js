@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js')
 const EventsHandler = require('../backend/eventsDatabase');
 const { parseDate } = require('../backend/misc')
+const { colour } = require('../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -92,7 +93,9 @@ module.exports = {
 
 
         // Init info embed
-        const embed = new MessageEmbed().setTitle("Please pick an event to update");
+        const embed = new MessageEmbed()
+            .setTitle("Please pick an event to update")
+            .setColor(colour);
 
         if (name)               embed.addFields({ name: "New name",        value: name })
         if (description)        embed.addFields({ name: "New description", value: description })

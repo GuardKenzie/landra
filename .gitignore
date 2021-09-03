@@ -1,6 +1,6 @@
 .eslint.json
-config.json
 node_modules
 events.db
 package.json
 package-lock.json
+secret.json

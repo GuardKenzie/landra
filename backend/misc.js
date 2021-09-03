@@ -1,7 +1,8 @@
 const EventsHandler = require('./eventsDatabase');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, DataResolver } = require('discord.js');
 const moment = require('moment');
-const wait = require('util').promisify(setTimeout);
+const { colour } = require('../config.json');
+
 
 const event_regex = /Events \(page (?<page_string>\d+|NaN)\/\d+\)/
 
@@ -36,8 +37,10 @@ async function generateNotification(entry, guild, type) {
     const embed_title = type == 1 ? `${entry.name} is starting in an hour` : `${entry.name} is starting now!`
 
     // Init embed
+    const notification_colour = type == 1 ? "ORANGE" : "RED";
     const embed = new MessageEmbed()
         .setTitle(embed_title)
+        .setColor(notification_colour)
         .addFields(
             {
                 name: "Description",
@@ -103,6 +106,7 @@ async function postDailyNotifications(client) {
 
 
 async function postEventNotifications(client) {
+    console.log("Checking")
     // Init events handler
     const events_handler = new EventsHandler();
 
@@ -232,6 +236,7 @@ async function generateEventsList(guild, page) {
 
     // init embed
     const embed = new MessageEmbed()
+        .setColor(colour)
         .setTitle(`Events (page ${page + 1}/${max_pages})`);
 
     for (event_entry of scheduled_events.slice(page * 5, page + 1 * 5)) {

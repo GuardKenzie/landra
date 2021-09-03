@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const EventsHandler = require('../backend/eventsDatabase');
+const { colour } = require("../config.json")
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -154,6 +155,7 @@ module.exports = {
         if (subcommand == "print") {
             // init embed
             const embed = new MessageEmbed()
+                .setColor(colour)
                 .setTitle(`Configuration for ${interaction.guild.name}`);
             
             // Get all channels
