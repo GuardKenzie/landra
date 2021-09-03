@@ -37,9 +37,14 @@ class EventsHandler {
             event_id:    Sequelize.STRING
         });
 
+        this.Roles = this.sequelize.define('roles', {
+            role_id:     Sequelize.STRING
+        });
+
         this.Users.sync();
         this.Events.sync();
         this.Channels.sync();
+        this.Roles.sync();
     }
 
     async newEvent(guild, name, description, date, recurring) {
@@ -206,21 +211,42 @@ class EventsHandler {
 
     async getAllChannels() {
         // Gets everything in the Channels table
-        const channels = await this.Channels.findAll();
+        const channels = await this.Channels.findAll({
+            order: ["type"] 
+        });
+
+        return channels
+    }
+
+
+    async getAllChannelsOfGuild(guild) {
+        // Gets everything in the Channels table
+        const channels = await this.Channels.findAll({
+            where: {
+                guild_id: guild.id
+            },
+            order: ['type']
+        });
 
         return channels
     }
 
 
     async addChannelType(channel, type) {
+        // Check if the channel is already there
+        const channel_type = (await this.getChannelType(channel))
+            .map(entry => entry.type);
+
+        if (channel_type.includes(type)) return;
+
         // Sets the channel type to type
-        const channel_type = await this.Channels.create({
+        const channel_type_added = await this.Channels.create({
             guild_id:   channel.guild.id,
             channel_id: channel.id,
             type:       type
         });
 
-        return channel_type
+        return channel_type_added
     }
 
 

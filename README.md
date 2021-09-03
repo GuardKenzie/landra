@@ -14,4 +14,4 @@
 - [x] Daily reminders
 - [ ] Time offsets
 - [ ] Add checks for no events
-- [ ] Add checks for text channel groups
+- [x] Add checks for text channel groups
