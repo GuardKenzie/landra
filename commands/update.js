@@ -63,6 +63,16 @@ module.exports = {
         // Get all events and make the work for the menu
         const all_events = await event_handler.getAllEvents(interaction.guild);
         
+        // Check if there are no events
+        if (all_events.length == 0) {
+            await interaction.reply({
+                content: "There are no events to update!",
+                ephemeral: true
+            })
+
+            return
+        }
+
         const event_options = all_events.map(event => {
             return {
                 label: event.name,
