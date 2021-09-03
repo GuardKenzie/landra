@@ -58,7 +58,7 @@ module.exports = {
 
         // Update join list
         await interaction.update({
-            content: "Event updated",
+            content: "Event updated. Refresh the events list to see the changes.",
             components: [],
             embeds: []
         })

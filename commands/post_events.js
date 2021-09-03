@@ -40,11 +40,7 @@ module.exports = {
                     new MessageButton()
                         .setCustomId('leave_event')
                         .setLabel('Leave event')
-                        .setStyle('DANGER'),
-                    new MessageButton()
-                        .setCustomId('admin_button')
-                        .setLabel('Admin')
-                        .setStyle('SECONDARY')
+                        .setStyle('DANGER')
                 )
 
         interaction.reply({
