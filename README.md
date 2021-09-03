@@ -10,7 +10,7 @@
 - [x] Add a task that checks if events are happening and posts notices
 - [x] Add recurring events
 - [ ] Roles?
-- [ ] Configuration for roles that can manage events
+- [x] Configuration for roles that can manage events
 - [x] Daily reminders
 - [ ] Time offsets
 - [x] Add checks for no events

@@ -296,4 +296,15 @@ async function generateEventsList(guild, page) {
     return embed
 }
 
+
+function checkAdmin(member) {
+
+}
+
+
+function checkManageEvents(member) {
+
+}
+
+
 module.exports = { postDailyNotifications, postEventNotifications ,generateEventsList, getPageFromEventsList, parseDate };

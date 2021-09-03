@@ -38,7 +38,8 @@ class EventsHandler {
         });
 
         this.Roles = this.sequelize.define('roles', {
-            role_id:     Sequelize.STRING
+            role_id:     Sequelize.STRING,
+            guild_id:    Sequelize.STRING
         });
 
         this.Users.sync();
@@ -294,6 +295,54 @@ class EventsHandler {
         }
 
         console.log(event.recurring)
+    }
+
+
+    async getAllRoles(guild) {
+        // Gets all the roles of a guild
+        const roles = await this.Roles.findAll({
+            where: {
+                guild_id: guild.id
+            }
+        })
+
+        return roles
+    }
+
+
+    async getRole(role) {
+        const permissions = await this.Roles.findOne({
+            where: {
+                role_id: role.id
+            }
+        })
+
+        return permissions
+    }
+
+
+    async addRole(role) {
+        // Get entry if it exists
+        const role_permissions = await this.getRole(role)
+
+        if (!role_permissions) {
+            // Create the permissions entry if it does not exist
+            await this.Roles.create({
+                role_id:      role.id,
+                guild_id:     role.guild.id
+            })
+        }
+    }
+
+
+    async removeRole(role) {
+        // Removes a role from Roles
+        await this.Roles.destroy({
+            where: {
+                role_id: role.id,
+                guild_id: role.guild.id
+            }
+        })
     }
 }
 

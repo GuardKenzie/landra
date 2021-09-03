@@ -151,6 +151,33 @@ module.exports = {
             }
         }
 
+        // Role group
+        if (group == 'role') {
+            const role = interaction.options.getRole('role');
+
+            if (subcommand == 'add') {
+                await events_handler.addRole(role);
+
+                await interaction.reply({
+                    content: `${role} can now manage events!`,
+                    ephemeral: true
+                })
+
+                return
+            }
+
+            if (subcommand == 'remove') {
+                await events_handler.removeRole(role);
+
+                await interaction.reply({
+                    content: `${role} can no longer manage events!`,
+                    ephemeral: true
+                })
+
+                return
+            }
+        }
+
         // Print config
         if (subcommand == "print") {
             // init embed
@@ -172,6 +199,24 @@ module.exports = {
                 // Add to embed
                 embed.addField(title, channel.toString());
             }
+
+
+            // Get all roles
+            const all_roles = await events_handler.getAllRoles(interaction.guild);
+
+            const role_mentions = []
+
+            console.log(all_roles)
+            for (entry of all_roles) {
+                // Get all mention strings
+                const role = await interaction.guild.roles.fetch(entry.role_id);
+                role_mentions.push(role.toString());
+            }
+
+            if (role_mentions.length == 0) role_mentions.push("None");
+
+            // Create roles field
+            embed.addField("Roles that can manage events", role_mentions.join("\n"));
 
             // Send embed
             await interaction.reply({
