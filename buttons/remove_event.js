@@ -10,7 +10,16 @@ module.exports = {
 
         // Get all event names, ids and store them for our menu
         const all_events = await events_handler.getAllEvents(interaction.guild)
-            
+        
+        if (all_events.length == 0) {
+            await interaction.update({
+                content: "There are no events to remove",
+                components: []
+            });
+
+            return;
+        }
+
         const event_options = all_events.map(event => {
             return {
                 label: event.name,
