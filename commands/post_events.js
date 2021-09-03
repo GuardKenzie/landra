@@ -16,12 +16,14 @@ module.exports = {
             .addComponents(
                 new MessageButton()
                     .setCustomId('last_page')
-                    .setLabel('Last page')
-                    .setStyle('SECONDARY'),
+                    .setLabel('')
+                    .setStyle('SECONDARY')
+                    .setEmoji('⬅️'),
                 new MessageButton()
                     .setCustomId('next_page')
-                    .setLabel('Next page')
-                    .setStyle('SECONDARY'),
+                    .setLabel('')
+                    .setStyle('SECONDARY')
+                    .setEmoji('➡️'),
                 new MessageButton()
                     .setCustomId('refresh_list')
                     .setLabel('Refresh')
