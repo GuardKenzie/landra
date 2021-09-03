@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@discordjs/builders": "^0.6.0",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "bufferutil": "^4.0.3",
+    "discord-api-types": "^0.22.0",
+    "discord.js": "^13.1.0",
+    "sequelize": "^6.6.5",
+    "set-interval-async": "^2.0.3",
+    "sqlite3": "^4.2.0",
+    "utf-8-validate": "^5.0.5",
+    "zlib-sync": "^0.1.7"
+  }
+}
