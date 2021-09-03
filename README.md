@@ -13,5 +13,5 @@
 - [ ] Configuration for roles that can manage events
 - [x] Daily reminders
 - [ ] Time offsets
-- [ ] Add checks for no events
+- [x] Add checks for no events
 - [x] Add checks for text channel groups
