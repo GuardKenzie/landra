@@ -16,3 +16,4 @@
 - [x] Add checks for no events
 - [x] Add checks for text channel groups
 - [x] Pick a colour
+- [ ] Add permission checks
