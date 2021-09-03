@@ -15,3 +15,4 @@
 - [ ] Time offsets
 - [x] Add checks for no events
 - [x] Add checks for text channel groups
+- [ ] Pick a colour
