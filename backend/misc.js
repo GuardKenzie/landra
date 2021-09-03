@@ -136,10 +136,10 @@ async function postEventNotifications(client) {
         }
 
         // In 1 hour
-        const now_after_hour        = now
-        const now_after_hour_minute = now_after_hour
-
+        const now_after_hour = new Date()
         now_after_hour.setHours(now_after_hour.getHours() + 1)
+
+        const now_after_hour_minute = new Date(now_after_hour)
         now_after_hour_minute.setMinutes(now_after_hour.getMinutes() + 1)
 
         const events_in_hour = await events_handler.getEventsBetween(guild, now_after_hour, now_after_hour_minute);
