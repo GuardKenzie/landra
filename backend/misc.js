@@ -95,6 +95,9 @@ async function postDailyNotifications(client) {
         // Get all events happening today
         const all_events = await events_handler.getEventsBetween(guild, now, tomorrow);
 
+        // Do not send anything if nothing is on the schedule
+        if (all_eventes.length == 0) return
+
         // Aggregate all messages
         const message_contents = [":envelope:  **__TODAY'S SCHEDULE__**  :envelope:"]
         for (entry of all_events) {
