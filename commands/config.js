@@ -262,7 +262,6 @@ module.exports = {
 
             const role_mentions = []
 
-            console.log(all_roles)
             for (entry of all_roles) {
                 // Get all mention strings
                 const role = await interaction.guild.roles.fetch(entry.role_id);

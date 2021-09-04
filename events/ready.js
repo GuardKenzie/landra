@@ -11,7 +11,7 @@ module.exports = {
 		console.log("\nStarting loops")
 		// Start event notification loop
 		console.log("STARTING:	Event notification loop")
-		setIntervalAsync(postEventNotifications, 1000, client);
+		setIntervalAsync(postEventNotifications, 60 * 1000, client);
 
 		// Start daily notification loop
 		console.log("STARTING:	Daily notification loop")

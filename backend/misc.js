@@ -100,7 +100,6 @@ async function postDailyNotifications(client) {
         for (entry of all_events) {
             const date = moment(entry.date)
             const emoji_hour = date.format("hh")
-            console.log(date.minutes())
 
             const emoji = date.minute() >= 30 ? `:clock${emoji_hour}30:` : `:clock${emoji_hour}:`;
 
@@ -118,7 +117,6 @@ async function postDailyNotifications(client) {
 
 
 async function postEventNotifications(client) {
-    console.log("Checking")
     // Init events handler
     const events_handler = new EventsHandler();
 
@@ -198,8 +196,6 @@ function parseDate(date_string, recurring) {
     // Parse date
     const date_format = "YYYY/MM/DD kk:mm";
     const date        = moment(date_string, date_format);
-
-    console.log(date_string)
     
     // Checks if a date is valid and returns an appropriate error
     // message if not

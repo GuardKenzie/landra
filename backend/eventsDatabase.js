@@ -302,8 +302,6 @@ class EventsHandler {
         else {
             await this.deleteEvent(event_id);
         }
-
-        console.log(event.recurring)
     }
 
 
