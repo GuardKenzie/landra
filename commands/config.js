@@ -187,8 +187,7 @@ module.exports = {
                 await events_handler.addRole(role);
 
                 await interaction.reply({
-                    content: `${role} can now manage events!`,
-                    ephemeral: true
+                    content: `${role} can now manage events!`
                 })
 
                 return
@@ -198,8 +197,7 @@ module.exports = {
                 await events_handler.removeRole(role);
 
                 await interaction.reply({
-                    content: `${role} can no longer manage events!`,
-                    ephemeral: true
+                    content: `${role} can no longer manage events!`
                 })
 
                 return
@@ -219,8 +217,7 @@ module.exports = {
                 : `UTC${offset.toString()}`
 
             await interaction.reply({
-                content: `Offset set to \`${time_offset_string}\``,
-                ephemeral: true
+                content: `Offset set to \`${time_offset_string}\``
             })
 
         }
