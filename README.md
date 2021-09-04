@@ -12,8 +12,8 @@
 - [ ] Roles?
 - [x] Configuration for roles that can manage events
 - [x] Daily reminders
-- [ ] Time offsets
+- [x] Time offsets
 - [x] Add checks for no events
 - [x] Add checks for text channel groups
 - [x] Pick a colour
-- [ ] Add permission checks
+- [x] Add permission checks
