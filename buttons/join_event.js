@@ -1,5 +1,6 @@
 const EventsHandler = require('../backend/eventsDatabase');
 const { MessageActionRow, MessageSelectMenu } = require('discord.js');
+const foodEmoji = require('../backend/food')
 
 module.exports = {
 	name: 'join_event',
@@ -32,7 +33,11 @@ module.exports = {
                     label: event.name,
                     value: event.event_id,
                     description: event.description.substring(0, 50) +
-                        (event.description.length > 50 ? "..." : "")
+                        (event.description.length > 50 ? "..." : ""),
+                    emoji: {
+                        name: foodEmoji(event.event_id),
+                        id: null
+                    }
                 })
             }
         }

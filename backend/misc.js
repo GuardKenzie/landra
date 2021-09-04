@@ -2,6 +2,7 @@ const EventsHandler = require('./eventsDatabase');
 const { MessageEmbed, DataResolver } = require('discord.js');
 const moment = require('moment');
 const { colour } = require('../config.json');
+const foodEmoji = require('./food')
 
 
 const event_regex = /Events \(page (?<page_string>\d+|NaN)\/\d+\)/
@@ -33,8 +34,13 @@ async function generateNotification(entry, guild, type) {
         mentions.push("Please someone join :(")
     }
 
+    // Get food emoji
+    const emoji = foodEmoji(entry.event_id);
+
     // Embed title
-    const embed_title = type == 1 ? `${entry.name} is starting in an hour` : `${entry.name} is starting now!`
+    const embed_title = type == 1 
+        ? `${emoji} ${entry.name} is starting in an hour` 
+        : `${emoji} ${entry.name} is starting now!`
 
     // Init embed
     const notification_colour = type == 1 ? "ORANGE" : "RED";
