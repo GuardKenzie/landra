@@ -2,6 +2,7 @@ const EventsHandler = require('../backend/eventsDatabase');
 const { MessageActionRow, MessageSelectMenu } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { hasEventPermissions } = require('../backend/misc');
+const foodEmoji = require('../backend/food');
 
 module.exports = {
     checks: [hasEventPermissions],
@@ -31,7 +32,11 @@ module.exports = {
                 label: event.name,
                 value: event.event_id,
                 description: event.description.substring(0, 50) +
-                        (event.description.length > 50 ? "..." : "")
+                        (event.description.length > 50 ? "..." : ""),
+                emoji: {
+                    name: foodEmoji(event.event_id),
+                    id: null
+                }
             }
         })
 
