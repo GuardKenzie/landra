@@ -290,14 +290,33 @@ class EventsHandler {
         // Get the event
         const event = await this.getEvent(event_id);
 
+        // Get attending ids
+        const party_list = await this.getParty(event_id);
+
         // Check if the event is recurring or not and update date if it is
         if (event.recurring == "weekly") {
+            // Date
             event.date.setDate(event.date.getDate() + 7);
             await this.updateEvent(event_id, { date: event.date });
+
+            // Kick
+            await this.Users.destroy({
+                where: {
+                    user_id: party_list,
+                }
+            })
         }
         else if (event.recurring == "monthly") {
+            // Date
             event.date.setMonth(event.date.getMonth() + 1);
             await this.updateEvent(event_id, { date: event.date });
+
+            // Kick
+            await this.Users.destroy({
+                where: {
+                    user_id: party_list,
+                }
+            })
         }
         else {
             await this.deleteEvent(event_id);

@@ -1,7 +1,7 @@
 const { postEventNotifications, postDailyNotifications } = require("../backend/misc");
 const { setIntervalAsync } = require('set-interval-async/fixed');
 
-const status = "with swords"
+const status = "with swords!"
 
 module.exports = {
 	name: 'ready',
@@ -11,7 +11,7 @@ module.exports = {
 		console.log(`Ready! Logged in as ${client.user.tag}`);
 
 		// Set status
-		console.log(`Status set to ${status}`);
+		console.log(`Status set to "Playing ${status}"`);
 		client.user.setActivity(status);
 
 		console.log("\nStarting loops")
