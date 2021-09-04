@@ -73,7 +73,13 @@ async function postDailyNotifications(client) {
         // Get this day
         const now = new Date();
 
-        // TODO: Add a check for custom times
+        // Get guild time offset and adjust now
+        const events_handler = new EventsHandler();
+        const time_offset = await events_handler.getTimeOffset(guild);
+
+        now.setHours(now.getHours() + time_offset)
+
+        // Check if time is 10:00
         if (!(now.getHours() == 10 && now.getMinutes() == 00)) return
 
         // Get tomorrow
@@ -226,9 +232,14 @@ async function generateEventsList(guild, page) {
     const events_handler = new EventsHandler();
     const scheduled_events = await events_handler.getAllEvents(guild)
 
-    const max_pages = Math.ceil(scheduled_events.length / 5);
+    // Get time offset
+    const time_offset = await events_handler.getTimeOffset(guild);
+    const time_offset_string = time_offset >= 0
+        ? "+" + time_offset.toString()
+        : time_offset.toString()
 
-    console.log(max_pages == 0)
+    // Figure out how many pages there will be
+    const max_pages = Math.ceil(scheduled_events.length / 5);
 
     // If max_pages == 0 then page % max_pages == NaN
     // If there are no events, we want to say page 0/0
@@ -237,7 +248,8 @@ async function generateEventsList(guild, page) {
     // init embed
     const embed = new MessageEmbed()
         .setColor(colour)
-        .setTitle(`Events (page ${page + 1}/${max_pages})`);
+        .setTitle(`Events (page ${page + 1}/${max_pages})`)
+        .setDescription(`All times are provided in \`UTC${time_offset_string}\``)
 
     for (event_entry of scheduled_events.slice(page * 5, page + 1 * 5)) {
         // Loop over events and add them to the embed
@@ -270,13 +282,18 @@ async function generateEventsList(guild, page) {
             )
             : "MMM Do [at] kk:mm"
 
-        const date_string = moment(event_entry.date).format(date_format);
+        // Get time offset
+        event_entry.date.setHours(event_entry.date.getHours() + time_offset);
 
+        const date_string = moment(event_entry.date).format(date_format);
+        
+        // Get food emoji
+        const emoji = foodEmoji(event_entry.event_id);
 
         // Update embed
         embed.addFields(
             {
-                name: `${event_entry.name} (${date_string})`, 
+                name: `${emoji}⠀${event_entry.name} (${date_string})`, 
                 value: event_entry.description, 
                 inline: true
             },

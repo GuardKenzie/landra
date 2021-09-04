@@ -42,10 +42,19 @@ class EventsHandler {
             guild_id:    Sequelize.STRING
         });
 
+        this.TimeOffsets = this.sequelize.define('time_offsets', {
+            guild_id: {
+                type: Sequelize.STRING,
+                unique: true
+            },
+            offset:      Sequelize.INTEGER
+        })
+
         this.Users.sync();
         this.Events.sync();
         this.Channels.sync();
         this.Roles.sync();
+        this.TimeOffsets.sync();
     }
 
     async newEvent(guild, name, description, date, recurring) {
@@ -343,6 +352,28 @@ class EventsHandler {
                 guild_id: role.guild.id
             }
         })
+    }
+
+
+    async getTimeOffset(guild) {
+        // Gets the guild's time offset and returns an integer
+        const offset = await this.TimeOffsets.findOne({
+            attributes: ['offset'],
+            where: {
+                guild_id: guild.id
+            }
+        })
+
+        if (offset === null) return 0;
+        else return offset.offset;
+    }
+
+
+    async setTimeOffset(guild, offset) {
+        await this.TimeOffsets.upsert({
+            guild_id: guild.id,
+            offset: offset
+        });
     }
 }
 

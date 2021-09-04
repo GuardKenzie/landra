@@ -57,14 +57,9 @@ module.exports = {
             return;
         }
 
-        // Set date since it is ok
-        const date = date_status.date;
-
-        // Init select menu
-        const event_handler = new EventsHandler()
-
+        // Init select meny
         // Get all events and make the work for the menu
-        const all_events = await event_handler.getAllEvents(interaction.guild);
+        const all_events = await events_handler.getAllEvents(interaction.guild);
         
         // Check if there are no events
         if (all_events.length == 0) {

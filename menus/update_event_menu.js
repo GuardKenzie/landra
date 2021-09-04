@@ -31,13 +31,13 @@ module.exports = {
         }
 
         // Check if date is being updated and parse it
-        const date = date_string.length == 0 
+        const date_status = date_string.length == 0 
             ? parseDate(event.date, recurring) 
             : parseDate(date_string[0], recurring);
 
-        if (!date.valid) {
+        if (!date_status.valid) {
             await interaction.update({
-                content: date.error,
+                content: date_status.error,
                 components: [],
                 embeds: []
             })
@@ -45,13 +45,18 @@ module.exports = {
             return
         }
 
+        // Set date since it is ok
+        const date = date_status.date.toDate();
+
+        // Get time offset and adjust date
+        const time_offset = await events_handler.getTimeOffset(interaction.guild);
+        date.setHours(date.getHours() - time_offset);
+
         // Set the required attributes of update_data
         if (name.length > 0)          update_data.name        = name[0];
         if (description.length > 0)   update_data.description = description[0];
-        if (date_string.length > 0)   update_data.date        = date.date;
+        if (date_string.length > 0)   update_data.date        = date;
                                       update_data.recurring   = recurring;
-
-        console.log(update_data);
 
         // Update the event
         await events_handler.updateEvent(event_id, update_data);

@@ -42,6 +42,9 @@ module.exports = {
         const description = interaction.options.getString('description');
         const recurring   = interaction.options.getString('recurring');
 
+        // Init
+        const events_handler = new EventsHandler()
+
         // Check if the date is valid
         const date_status = parseDate(date_string, recurring);
 
@@ -55,11 +58,14 @@ module.exports = {
         }
 
         // Set date since it is ok
-        const date = date_status.date;
+        const date = date_status.date.toDate();
+
+        // Get time offset and adjust date
+        const time_offset = await events_handler.getTimeOffset(interaction.guild);
+        date.setHours(date.getHours() - time_offset);
 
         // Schedule event
-        const event_handler = new EventsHandler()
-        await event_handler.newEvent(
+        await events_handler.newEvent(
             interaction.guild, 
             event_name, 
             description, 
@@ -68,7 +74,7 @@ module.exports = {
         );
 
         await interaction.reply({
-            content: `Event \`${event_name}\` scheduled for \`${date}\`!`,
+            content: `Event \`${event_name}\` scheduled for \`${date_string}\`!`,
             ephemeral: true
         })
 

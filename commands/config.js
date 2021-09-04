@@ -111,6 +111,31 @@ module.exports = {
             subcommand
                 .setName("print")
                 .setDescription("Prints the current configuration")
+        )
+
+        .addSubcommand(subcommand => 
+            subcommand
+                .setName("time")
+                .setDescription("Sets the time offset for this guild")
+                .addStringOption(option =>
+                    option
+                        .setName("offset")
+                        .setDescription("The time offset")
+                        .setRequired(true)
+                        .addChoices((() => {
+                            const choices = [];
+
+                            for (i = -12; i <= 12; i++) {
+                                const out_string = i >= 0
+                                    ? `UTC+${i}`
+                                    : `UTC${i}`
+                                choices.push([out_string, i.toString()])
+                            }
+                            
+                            return choices
+                        })())
+                )
+
         ),
 
     async execute(interaction) {
@@ -181,6 +206,25 @@ module.exports = {
             }
         }
 
+        // Time command
+        if (subcommand == "time") {
+            // Get offset
+            const offset = parseInt(interaction.options.getString("offset"));
+            
+            // insert offset
+            await events_handler.setTimeOffset(interaction.guild, offset);
+
+            const time_offset_string = offset >= 0
+                ? `UTC+${offset.toString()}`
+                : `UTC${offset.toString()}`
+
+            await interaction.reply({
+                content: `Offset set to \`${time_offset_string}\``,
+                ephemeral: true
+            })
+
+        }
+
         // Print config
         if (subcommand == "print") {
             // init embed
@@ -188,6 +232,15 @@ module.exports = {
                 .setColor(colour)
                 .setTitle(`Configuration for ${interaction.guild.name}`);
             
+
+            // Time offset
+            const time_offset = await events_handler.getTimeOffset(interaction.guild);
+            const time_offset_string = time_offset >= 0
+                ? `\`UTC+${time_offset.toString()}\``
+                : `\`UTC${time_offset.toString()}\``
+
+            embed.setDescription("**Time offset:** " + time_offset_string);
+
             // Get all channels
             const all_channels = await events_handler.getAllChannelsOfGuild(interaction.guild);
 
@@ -196,8 +249,8 @@ module.exports = {
                 const channel = await interaction.guild.channels.fetch(entry.channel_id)
 
                 const title = entry.type == "daily" 
-                    ? ":envelope:  Daily notifications channel" 
-                    : ":alarm_clock:  Event notifications channel";
+                    ? ":envelope:⠀Daily notifications channel" 
+                    : ":alarm_clock:⠀Event notifications channel";
                 
                 // Add to embed
                 embed.addField(title, channel.toString());
