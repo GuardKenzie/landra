@@ -9,7 +9,28 @@ module.exports = {
     
             if (!command) return;
         
-        
+            // Check for permission
+            if (command.checks?.length > 0) {
+                const checks_ok = [];
+
+                // Exec all checks and add them to list
+                for (const check of command.checks) {
+                    const result = await check(interaction);
+                    checks_ok.push(result);
+                }
+                
+                // print error if not ok
+                if (checks_ok.some(result => result === false)) {
+                    await interaction.reply({
+                        content: "You do not have permission to execute this command!",
+                        ephemeral: true
+                    })
+
+                    return
+                }
+            }
+
+            // Execute it
             try {
                 await command.execute(interaction);
             }

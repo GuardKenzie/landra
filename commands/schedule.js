@@ -1,8 +1,10 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const EventsHandler = require('../backend/eventsDatabase');
-const { parseDate } = require('../backend/misc');
+const { parseDate, hasEventPermissions } = require('../backend/misc');
 
 module.exports = {
+    checks: [hasEventPermissions],
+
     data: new SlashCommandBuilder()
         .setName('schedule')
         .setDescription('Create a new event')

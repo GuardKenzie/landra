@@ -1,8 +1,11 @@
 const EventsHandler = require('../backend/eventsDatabase');
 const { MessageActionRow, MessageSelectMenu } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { hasEventPermissions } = require('../backend/misc');
 
 module.exports = {
+    checks: [hasEventPermissions],
+ 
 	data: new SlashCommandBuilder()
         .setName('remove')
         .setDescription('Remove an event'),

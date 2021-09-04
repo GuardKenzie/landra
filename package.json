@@ -5,6 +5,7 @@
     "bufferutil": "^4.0.3",
     "discord-api-types": "^0.22.0",
     "discord.js": "^13.1.0",
+    "moment": "^2.29.1",
     "sequelize": "^6.6.5",
     "set-interval-async": "^2.0.3",
     "sqlite3": "^4.2.0",

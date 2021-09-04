@@ -2,6 +2,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { postDailyNotifications } = require('../backend/misc');
 
 module.exports = {
+    checks: [(interaction) => { return interaction.member.id === "197471216594976768" }],
+
     data: new SlashCommandBuilder()
         .setName('force_friendly')
         .setDescription('Force posts friendly'),

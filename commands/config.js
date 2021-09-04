@@ -2,8 +2,11 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const EventsHandler = require('../backend/eventsDatabase');
 const { colour } = require("../config.json")
+const { isAdmin } = require("../backend/misc");
 
 module.exports = {
+    checks: [isAdmin],
+
     data: new SlashCommandBuilder()
         .setName('configure')
         .setDescription('Prints current configuration')

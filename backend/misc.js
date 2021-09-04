@@ -296,15 +296,32 @@ async function generateEventsList(guild, page) {
     return embed
 }
 
+function isAdmin(interaction) {
+    // get member
+    const member = interaction.member;
 
-function checkAdmin(member) {
-
+    return member.permissions.has("ADMINISTRATOR");
 }
 
 
-function checkManageEvents(member) {
+async function hasEventPermissions(interaction) {
+    // get member
+    const member = interaction.member;
+    
+    // Check if admin
+    if (isAdmin(interaction)) return true;
 
+    // init events handler
+    const events_handler = new EventsHandler();
+
+    // get all event roles
+    const allowed_roles = await events_handler.getAllRoles(interaction.guild)
+
+    // Check if any of the roles are allowed
+    return member.roles.cache.hasAny(
+        ...allowed_roles.map(role => role.role_id)
+    );
 }
 
 
-module.exports = { postDailyNotifications, postEventNotifications ,generateEventsList, getPageFromEventsList, parseDate };
+module.exports = { hasEventPermissions, isAdmin, postDailyNotifications, postEventNotifications ,generateEventsList, getPageFromEventsList, parseDate };

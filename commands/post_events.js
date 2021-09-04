@@ -1,12 +1,14 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageActionRow, MessageButton, MessageSelectMenu, Message } = require('discord.js');
-const { generateEventsList } = require('../backend/misc');
+const { generateEventsList, hasEventPermissions } = require('../backend/misc');
 
 module.exports = {
+    checks: [hasEventPermissions],
+
     data: new SlashCommandBuilder()
         .setName('post_events')
         .setDescription('Posts the list of events with controls'),
-    
+
     async execute(interaction) {
         // Get the embed for page 0
         const embed = await generateEventsList(interaction.guild, 0);

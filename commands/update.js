@@ -1,10 +1,12 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js')
 const EventsHandler = require('../backend/eventsDatabase');
-const { parseDate } = require('../backend/misc')
+const { parseDate, hasEventPermissions } = require('../backend/misc')
 const { colour } = require('../config.json');
 
 module.exports = {
+    checks: [hasEventPermissions],
+
     data: new SlashCommandBuilder()
         .setName('update')
         .setDescription('Update an existing event\'s info')
