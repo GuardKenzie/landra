@@ -133,7 +133,6 @@ async function postEventNotifications(client) {
         const now     = new Date()
 
         // Check if channel is for event notifications
-        console.log(entry.type)
         if (entry.type != "notifications") continue;
 
         // In 1 minute
@@ -260,7 +259,7 @@ async function generateEventsList(guild, page) {
         .setTitle(`Events (page ${page + 1}/${max_pages})`)
         .setDescription(`All times are provided in \`UTC${time_offset_string}\``)
 
-    for (event_entry of scheduled_events.slice(page * 5, page + 1 * 5)) {
+    for (event_entry of scheduled_events.slice(page * 5, (page + 1) * 5)) {
         // Loop over events and add them to the embed
 
         // Get party
