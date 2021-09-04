@@ -5,7 +5,7 @@
 
 **Landra is a simple event management bot for Discord written in Discord.js.**
 
-[Invite Landra to your server](https://discord.com/oauth2/authorize?client_id=881679533181390919&permissions=133120&scope=bot)
+[Invite Landra to your server](https://discord.com/api/oauth2/authorize?client_id=881679533181390919&permissions=133184&scope=bot%20applications.commands)
 
 ## To-Do
 - [x] Add the ability to update events
