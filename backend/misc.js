@@ -73,7 +73,7 @@ async function postDailyNotifications(client) {
         const guild   = await client.guilds.fetch(entry.guild_id);
         const channel = await guild.channels.fetch(entry.channel_id);
 
-        // We don't want daily channels
+        // We don't want non daily channels
         if (entry.type != "daily") continue;
 
         // Get this day
@@ -131,6 +131,10 @@ async function postEventNotifications(client) {
         const guild   = await client.guilds.fetch(entry.guild_id);
         const channel = await guild.channels.fetch(entry.channel_id);
         const now     = new Date()
+
+        // Check if channel is for event notifications
+        console.log(entry.type)
+        if (entry.type != "notifications") continue;
 
         // In 1 minute
         const in_a_minute = new Date()
