@@ -43,6 +43,18 @@ module.exports = {
         const date_string      = interaction.options.getString('date');
         const recurring_string = interaction.options.getString('recurring');
 
+        if ([name, description, date_string, recurring_string].every(e => e === null)) {
+            await interaction.reply({
+                content: "You didn't provide any information to update",
+                ephemeral: true
+            })
+
+            return
+        }
+
+        // Init
+        const events_handler = new EventsHandler()
+
         // Set recurring to null if not recurring
         const recurring = recurring_string == "once" ? null : recurring_string
 
