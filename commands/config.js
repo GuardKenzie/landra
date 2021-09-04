@@ -8,7 +8,7 @@ module.exports = {
     checks: [isAdmin],
 
     data: new SlashCommandBuilder()
-        .setName('configure')
+        .setName('config')
         .setDescription('Prints current configuration')
 
         // Role group
