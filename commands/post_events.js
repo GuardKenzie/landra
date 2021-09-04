@@ -6,7 +6,7 @@ module.exports = {
     checks: [hasEventPermissions],
 
     data: new SlashCommandBuilder()
-        .setName('post_events')
+        .setName('post')
         .setDescription('Posts the list of events with controls'),
 
     async execute(interaction) {
