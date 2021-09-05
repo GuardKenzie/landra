@@ -72,6 +72,14 @@ class EventsHandler {
         return event;
     }
 
+    async eventCount() {
+        // Get the total number of scheduled events
+        const count = await this.Events.findAll().then(res => res.length);
+
+        return count
+    }
+
+
     async getAllEvents(guild) {
         //  Get all events scheduled in guild
         const event_list = await this.Events.findAll({

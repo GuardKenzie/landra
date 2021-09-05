@@ -1,18 +1,25 @@
-const { postEventNotifications, postDailyNotifications } = require("../backend/misc");
+const { setStatus, postEventNotifications, postDailyNotifications } = require("../backend/misc");
 const { setIntervalAsync } = require('set-interval-async/fixed');
-
-const status = "with swords!"
+const EventsHandler = require('../backend/eventsDatabase')
 
 module.exports = {
 	name: 'ready',
 	once: true,
 
     async execute(client) {
+		// Init
 		console.log(`Ready! Logged in as ${client.user.tag}`);
 
-		// Set status
-		console.log(`Status set to "Playing ${status}"`);
-		client.user.setActivity(status);
+		// set status
+		await setStatus(client);
+
+		// Counts
+		const events_handler = new EventsHandler();
+		const guild_count = await client.guilds.fetch().then(coll => coll.size);
+		const event_count = await events_handler.eventCount();
+
+		console.log(`Keeping track of ${event_count} events in ${guild_count} guilds`)
+
 
 		console.log("\nStarting loops")
 		// Start event notification loop
@@ -22,5 +29,9 @@ module.exports = {
 		// Start daily notification loop
 		console.log("STARTING:	Daily notification loop")
 		setIntervalAsync(postDailyNotifications, 60 * 1000, client);
+
+		// Start status loop
+		console.log("STARTING:	Status loop")
+		setIntervalAsync(setStatus, 5 * 60 * 1000, client);
 	},
 };

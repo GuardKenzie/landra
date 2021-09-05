@@ -350,4 +350,14 @@ async function hasEventPermissions(interaction) {
 }
 
 
-module.exports = { hasEventPermissions, isAdmin, postDailyNotifications, postEventNotifications ,generateEventsList, getPageFromEventsList, parseDate };
+async function setStatus(client) {
+    const events_handler = new EventsHandler();
+    const guild_count = await client.guilds.fetch().then(coll => coll.size);
+    const event_count = await events_handler.eventCount();
+
+    const status = `with ${event_count} events in ${guild_count} guilds`
+    client.user.setActivity(status);
+}
+
+
+module.exports = { setStatus, hasEventPermissions, isAdmin, postDailyNotifications, postEventNotifications ,generateEventsList, getPageFromEventsList, parseDate };
