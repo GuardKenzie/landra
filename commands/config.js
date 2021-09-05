@@ -11,108 +11,87 @@ module.exports = {
         .setName('config')
         .setDescription('Prints current configuration')
 
+        // Channel command
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('channel')
+                .setDescription('Set or unset a channel type')
+                .addStringOption(option =>
+                    option
+                        .setName("action")
+                        .setDescription("Whether to set or usnet the channel type")
+                        .addChoices([
+                            [
+                                "set",
+                                "set"
+                            ],
+                            [
+                                "unset",
+                                "unset"
+                            ]
+                        ])
+                        .setRequired(true)
+                )
+                .addChannelOption(option =>
+                    option
+                        .setName("channel")
+                        .setDescription("The channel to configure")
+                        .setRequired(true)
+                )
+                .addStringOption(option =>
+                    option
+                        .setName("type")
+                        .setDescription("The channel's type")
+                        .setRequired(true)
+                        .addChoice(
+                            "Event notifications", 
+                            "notifications"
+                        )
+                        .addChoice(
+                            "Daily notifications for recurring events",
+                            "daily"
+                        )
+                )
+        )
+
         // Role group
-        .addSubcommandGroup(group =>
-            group
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName('role')
                 .setDescription('Allow or disallow roles to edit events')
-
-                // configure role remove 
-                .addSubcommand(subcommand =>
-                    subcommand
-                        .setName("remove")
-                        .setDescription("Dissallow a role to edit events")
-                        .addRoleOption(option =>
-                            option
-                                .setName("role")
-                                .setDescription("The role to disallow")
-                                .setRequired(true)
-                        )
+                .addStringOption(option =>
+                    option
+                        .setName("action")
+                        .setDescription("Whether to allow or disallow the role to manage events")
+                        .addChoices([
+                            [
+                                "allow",
+                                "allow"
+                            ],
+                            [
+                                "disallow",
+                                "disallow"
+                            ]
+                        ])
+                        .setRequired(true)
+                )
+                .addRoleOption(option =>
+                    option
+                        .setName("role")
+                        .setDescription("Which role to configure")
+                        .setRequired(true)
                 )
 
-                // configure role add
-                .addSubcommand(subcommand =>
-                    subcommand
-                        // configure role remove 
-                        .setName("add")
-                        .setDescription("Allow a role to edit events")
-                        .addRoleOption(option =>
-                            option
-                                .setName("role")
-                                .setDescription("The role to allow")
-                                .setRequired(true)
-                        )
-                )
         )
 
-        // channel group
-        .addSubcommandGroup(group =>
-            group
-                .setName('channel')
-                .setDescription('Edit channel types')
-
-                // configure channel set
-                .addSubcommand(subcommand =>
-                    subcommand
-                        .setName("set")
-                        .setDescription("Set a channel's type")
-                        .addChannelOption(option =>
-                            option
-                                .setName("channel")
-                                .setDescription("The channel to configure")
-                                .setRequired(true)
-                        )
-                        .addStringOption(option =>
-                            option
-                                .setName("type")
-                                .setDescription("The channel's type")
-                                .setRequired(true)
-                                .addChoice(
-                                    "Event notifications", 
-                                    "notifications"
-                                )
-                                .addChoice(
-                                    "Daily notifications for recurring events",
-                                    "daily"
-                                )
-                        )
-                )
-
-                // configure channel unset
-                .addSubcommand(subcommand =>
-
-                    subcommand
-                        .setName("unset")
-                        .setDescription("Removes a channel type")
-                        .addChannelOption(option =>
-                            option
-                                .setName("channel")
-                                .setDescription("The channel to configure")
-                                .setRequired(true)
-                        )
-                        .addStringOption(option =>
-                            option
-                                .setName("type")
-                                .setDescription("The channel's type")
-                                .setRequired(true)
-                                .addChoice(
-                                    "Event notifications", 
-                                    "notifications"
-                                )
-                                .addChoice(
-                                    "Daily notifications for recurring events",
-                                    "daily"
-                                )
-                        )
-                )
-        )
-        
+        // Print command
         .addSubcommand(subcommand =>
             subcommand
                 .setName("print")
                 .setDescription("Prints the current configuration")
         )
 
+        // Time command
         .addSubcommand(subcommand => 
             subcommand
                 .setName("time")
@@ -140,15 +119,15 @@ module.exports = {
 
     async execute(interaction) {
         // Init
-        const group = interaction.options.getSubcommandGroup(false);
         const subcommand = interaction.options.getSubcommand();
         const events_handler = new EventsHandler();
 
         // Channel group
-        if (group == 'channel') {
+        if (subcommand == 'channel') {
             const channel = await interaction.options.getChannel("channel");
             const type    = await interaction.options.getString("type");
-            
+            const action  = await interaction.options.getString("action");
+
             // Check if the provided channel is a text channel
             if (channel.type != "GUILD_TEXT") {
                 await interaction.reply({
@@ -160,7 +139,7 @@ module.exports = {
             }
 
             // configure channel set
-            if (subcommand == "set") {
+            if (action == "set") {
                 // Process the channel set command
                 await events_handler.addChannelType(channel, type);
                 
@@ -170,7 +149,7 @@ module.exports = {
             }
 
             // configure channel unset
-            else if (subcommand == "unset") {
+            else if (action == "unset") {
                 await events_handler.removeChannelType(channel, type);
 
                 await interaction.reply({
@@ -180,10 +159,11 @@ module.exports = {
         }
 
         // Role group
-        if (group == 'role') {
-            const role = interaction.options.getRole('role');
+        if (subcommand == 'role') {
+            const role =   await interaction.options.getRole('role');
+            const action = await interaction.options.getString("action");
 
-            if (subcommand == 'add') {
+            if (action == 'allow') {
                 await events_handler.addRole(role);
 
                 await interaction.reply({
@@ -193,7 +173,7 @@ module.exports = {
                 return
             }
 
-            if (subcommand == 'remove') {
+            if (action == 'disallow') {
                 await events_handler.removeRole(role);
 
                 await interaction.reply({
