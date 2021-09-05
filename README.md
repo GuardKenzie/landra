@@ -7,6 +7,8 @@
 
 [Invite Landra to your server](https://discord.com/api/oauth2/authorize?client_id=881679533181390919&permissions=133184&scope=bot%20applications.commands)
 
+[Documentation](https://guardkenzie.github.io/landra/)
+
 ## To-Do
 - [x] Add the ability to update events
 - [x] Add a task that checks if events are happening and posts notices
