@@ -21,3 +21,5 @@
 - [x] Add checks for text channel groups
 - [x] Pick a colour
 - [x] Add permission checks
+- [ ] Purge a member when they leave a guild
+- [ ] Last refreshed timestamp for event list
