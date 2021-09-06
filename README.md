@@ -11,5 +11,5 @@
 
 ## To-Do
 - [ ] Custom roles when members join events
-- [ ] Purge a member when they leave a guild
-- [ ] Last refreshed timestamp for event list
+- [x] Purge a member when they leave a guild
+- [x] Last refreshed timestamp for event list
