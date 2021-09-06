@@ -102,7 +102,7 @@ async function postDailyNotifications(client) {
         const message_contents = [":envelope:  **__TODAY'S SCHEDULE__**  :envelope:"]
         for (entry of all_events) {
             const date = moment(entry.date)
-            const emoji_hour = date.format("hh")
+            const emoji_hour = date.format("h")
 
             const emoji = date.minute() >= 30 ? `:clock${emoji_hour}30:` : `:clock${emoji_hour}:`;
 
