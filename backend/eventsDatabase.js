@@ -193,9 +193,11 @@ class EventsHandler {
 
     async purgeFromGuild(guild, user) {
         // Removes this user from all events scheduled int the guild
-        const events = await this.getAllEvents(guild.id).forEach(async event => {
+        const events = await this.getAllEvents(guild.id)
+        
+        for (const event of events) {
             await this.leaveEvent(user, event.event_id)
-        });
+        }
 
         return events;
     }
