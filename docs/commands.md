@@ -14,7 +14,15 @@ All arguments that come before the `|` symnol are required, the ones after are o
 # Event commands
 
 ## Post
-This command posts the events list. This will be the primary way users interact with the bot.
+This command posts the events list. This will be the primary way members interact with the bot.
+
+#### Usage
+```discord
+/post
+```
+
+The buttons on this list allows members to join and leave events as well as refresh the list and change pages.
+
 ![list](media/list.png)
 
 
