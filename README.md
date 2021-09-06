@@ -10,16 +10,6 @@
 [Documentation](https://guardkenzie.github.io/landra/)
 
 ## To-Do
-- [x] Add the ability to update events
-- [x] Add a task that checks if events are happening and posts notices
-- [x] Add recurring events
-- [ ] Roles?
-- [x] Configuration for roles that can manage events
-- [x] Daily reminders
-- [x] Time offsets
-- [x] Add checks for no events
-- [x] Add checks for text channel groups
-- [x] Pick a colour
-- [x] Add permission checks
+- [ ] Custom roles when members join events
 - [ ] Purge a member when they leave a guild
 - [ ] Last refreshed timestamp for event list
