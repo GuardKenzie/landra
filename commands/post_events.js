@@ -10,6 +10,9 @@ module.exports = {
         .setDescription('Posts the list of events with controls'),
 
     async execute(interaction) {
+        // Defer update
+        await interaction.deferReply()
+
         // Get the embed for page 0
         const embed = await generateEventsList(interaction.guild, 0);
 
@@ -45,7 +48,7 @@ module.exports = {
                         .setStyle('DANGER')
                 )
 
-        interaction.reply({
+        interaction.editReply({
             embeds: [embed],
             components: [
                 page_button_row, 
