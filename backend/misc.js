@@ -259,6 +259,7 @@ async function generateEventsList(guild, page) {
         .setTitle(`Events (page ${page + 1}/${max_pages})`)
         .setDescription(`All times are provided in \`UTC${time_offset_string}\``)
         .setFooter(`${page + 1}/${max_pages}`)
+        .setTimestamp(Date.now())
 
     for (event_entry of scheduled_events.slice(page * 5, (page + 1) * 5)) {
         // Loop over events and add them to the embed
