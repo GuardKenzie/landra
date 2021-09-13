@@ -6,6 +6,7 @@ module.exports = {
 	name: 'join_event',
 
     async execute(interaction) {
+        await interaction.deferReply();
         // Init event handler
         const events_handler = new EventsHandler();
 
@@ -51,7 +52,7 @@ module.exports = {
                         .addOptions(event_options)
                 );
 
-        await interaction.reply({
+        await interaction.updateReply({
             content: "Please pick an event to join",
             components: [join_menu_row],
             ephemeral: true
