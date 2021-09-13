@@ -15,11 +15,32 @@ module.exports = {
 
 		// Counts
 		const events_handler = new EventsHandler();
-		const guild_count = await client.guilds.fetch().then(coll => coll.size);
+		const all_guilds = await client.guilds.fetch();
+
+		console.log("\n=== Joined guilds: ===")
+		all_guilds.each(guild => {
+			console.log(guild.name);
+		})
+
+		const guild_count = all_guilds.size;
 		const event_count = await events_handler.eventCount();
 
+		console.log()
 		console.log(`Keeping track of ${event_count} events in ${guild_count} guilds`)
+		
+		// If for some reason we are checking a channel in a guild we are no longer
+        // a member of, we purge that guild from our database and skip it
+		const all_guild_ids = all_guilds.map(guild => guild.id)
+		const all_channels = await events_handler.getAllChannels()
+		
+        for (const entry of all_channels) {
+			if (!all_guild_ids.includes(entry.guild_id)) {
+				console.log(`Purging ${all_guilds.get(entry.guild_id).name}`)
 
+				await events_handler.purgeGuild(entry.guild_id);
+				continue
+			}
+		}
 
 		console.log("\nStarting loops")
 		// Start event notification loop
