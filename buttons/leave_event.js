@@ -6,7 +6,7 @@ module.exports = {
 	name: 'leave_event',
 
     async execute(interaction) {
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: true });
         // Init event handler
         const events_handler = new EventsHandler();
 
@@ -52,7 +52,7 @@ module.exports = {
                         .addOptions(event_options)
                 );
 
-        await interaction.updateReply({
+        await interaction.editReply({
             content: "Please pick an event to leave",
             components: [leave_menu_row],
             ephemeral: true
