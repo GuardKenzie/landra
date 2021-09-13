@@ -126,18 +126,10 @@ async function postEventNotifications(client) {
     // Init events handler
     const events_handler = new EventsHandler();
 
-    // const all_guild_ids = await client.guilds.fetch().map(guild => guild.id)
     const all_channels = await events_handler.getAllChannels()
 
     // Loop over channel and handle each
     for (entry of all_channels) {
-        // If for some reason we are checking a channel in a guild we are no longer
-        // a member of, we purge that guild from our database and skip it
-        // if (!all_guild_ids.has(entry.guild_id)) {
-        //     await events_handler.purgeGuild(entry.guild_id);
-        //     continue
-        // }
-
         // Init
         const guild   = await client.guilds.fetch(entry.guild_id);
         const channel = await guild.channels.fetch(entry.channel_id);
@@ -367,8 +359,8 @@ async function setStatus(client) {
     const guild_count = await client.guilds.fetch().then(coll => coll.size);
     const event_count = await events_handler.eventCount();
 
-    const status = `with ${event_count} events in ${guild_count} guilds`
-    client.user.setActivity(status);
+    const status = `${event_count} events in ${guild_count} guilds`
+    client.user.setActivity(status, { type: "WATCHING" });
 }
 
 
