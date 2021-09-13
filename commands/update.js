@@ -37,6 +37,7 @@ module.exports = {
 
     
     async execute(interaction) {
+        await interaction.deferReply({ ephemeral: true });
         // Get and parse options
         const name             = interaction.options.getString('name');
         const description      = interaction.options.getString('description');
@@ -116,7 +117,7 @@ module.exports = {
         if (date_string)        embed.addFields({ name: "New date",        value: date_string });
         if (recurring_string)   embed.addFields({ name: "Recurring",       value: recurring_string });
     
-        await interaction.reply({
+        await interaction.editReply({
             components: [event_selection_row],
             embeds: [embed],
             ephemeral: true

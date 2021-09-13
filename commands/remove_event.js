@@ -12,6 +12,8 @@ module.exports = {
         .setDescription('Remove an event'),
 
     async execute(interaction) {
+        await interaction.deferReply({ ephemeral: true });
+
         // Init event handler
         const events_handler = new EventsHandler();
 
@@ -49,7 +51,7 @@ module.exports = {
                         .addOptions(event_options)
                 );
 
-        await interaction.reply({
+        await interaction.editReply({
             content: "Please pick an event to remove",
             components: [remove_menu_row],
             ephemeral: true
