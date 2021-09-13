@@ -37,6 +37,7 @@ for (const file of event_files) {
     }
 }
 
+client.on("error", () => { client.login(token) });
 
 /*
     === Read button files ===
