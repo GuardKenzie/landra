@@ -126,7 +126,7 @@ async function postEventNotifications(client) {
     // Init events handler
     const events_handler = new EventsHandler();
 
-    const all_guild_ids = await client.guilds.fetch().map(guild => guild.id)
+    // const all_guild_ids = await client.guilds.fetch().map(guild => guild.id)
     const all_channels = await events_handler.getAllChannels()
 
     // Loop over channel and handle each
