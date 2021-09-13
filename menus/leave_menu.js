@@ -5,6 +5,7 @@ module.exports = {
 	name: 'leave_menu',
 
     async execute(interaction) {
+        await interaction.deferUpdate()
         // Init
         const events_handler = new EventsHandler();
 
@@ -26,7 +27,7 @@ module.exports = {
         });
 
         // Update join list
-        await interaction.update({
+        await interaction.editReply({
             content: "Event left",
             components: []
         })

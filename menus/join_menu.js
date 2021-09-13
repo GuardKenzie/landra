@@ -5,6 +5,8 @@ module.exports = {
 	name: 'join_menu',
 
     async execute(interaction) {
+        await interaction.deferUpdate();
+
         // Init
         const events_handler = new EventsHandler();
 
@@ -26,7 +28,7 @@ module.exports = {
         });
 
         // Update join list
-        await interaction.update({
+        await interaction.editReply({
             content: "Event joined",
             components: []
         })

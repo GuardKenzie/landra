@@ -5,6 +5,7 @@ module.exports = {
 	name: 'update_event_menu',
 
     async execute(interaction) {
+        await interaction.deferUpdate()
         // Init
         const events_handler = new EventsHandler();
 
@@ -62,7 +63,7 @@ module.exports = {
         await events_handler.updateEvent(event_id, update_data);
 
         // Update join list
-        await interaction.update({
+        await interaction.editReply({
             content: "Event updated. Refresh the events list to see the changes.",
             components: [],
             embeds: []

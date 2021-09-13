@@ -5,6 +5,7 @@ module.exports = {
 	name: 'remove_menu',
 
     async execute(interaction) {
+        await interaction.deferUpdate()
         // Init
         const events_handler = new EventsHandler();
 
@@ -12,7 +13,7 @@ module.exports = {
         await events_handler.deleteEvent(interaction.values[0]);
         
         // Update join list
-        await interaction.update({
+        await interaction.editReply({
             content: "Event removed! Refresh the events list to see the changes.",
             components: []
         })
