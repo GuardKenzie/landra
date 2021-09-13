@@ -133,10 +133,10 @@ async function postEventNotifications(client) {
     for (entry of all_channels) {
         // If for some reason we are checking a channel in a guild we are no longer
         // a member of, we purge that guild from our database and skip it
-        if (!all_guild_ids.has(entry.guild_id)) {
-            await events_handler.purgeGuild(entry.guild_id);
-            continue
-        }
+        // if (!all_guild_ids.has(entry.guild_id)) {
+        //     await events_handler.purgeGuild(entry.guild_id);
+        //     continue
+        // }
 
         // Init
         const guild   = await client.guilds.fetch(entry.guild_id);
