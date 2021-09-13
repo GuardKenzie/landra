@@ -214,6 +214,35 @@ class EventsHandler {
         return purge;
     }
 
+
+    async purgeGuild(guild_id) {
+        const all_events = await this.getAllEvents({ id: guild_id });
+
+        // Delete all events
+        for (const event of all_events) {
+            await this.deleteEvent(event.event_id)
+        }
+
+        // Delete all configuration
+        await this.Channels.destroy({
+            where: {
+                guild_id: guild_id
+            }
+        });
+
+        await this.Roles.destroy({
+            where: {
+                guild_id: guild_id
+            }
+        })
+
+        await this.TimeOffsets.destroy({
+            where: {
+                guild_id: guild_id
+            }
+        })
+    }
+
     
     async getChannelType(channel) {
         // Gets all types associated with the channel
