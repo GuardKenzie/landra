@@ -52,10 +52,10 @@ module.exports = {
             }
             catch (error) {
                 console.error(error);
-                await interaction.reply({
+                /*await interaction.reply({
                     content: "There was an error while executing your button :sad:",
                     ephemeral: true
-                })
+                })*/
             }
         }
 
