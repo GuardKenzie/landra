@@ -341,6 +341,7 @@ class EventsHandler {
             // Kick
             await this.Users.destroy({
                 where: {
+                    event_id: event_id,
                     user_id: party_list,
                 }
             })
@@ -353,6 +354,7 @@ class EventsHandler {
             // Kick
             await this.Users.destroy({
                 where: {
+                    event_id: event_id,
                     user_id: party_list,
                 }
             })
