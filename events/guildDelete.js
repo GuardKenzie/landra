@@ -6,9 +6,15 @@ module.exports = {
     async execute(guild) {
         // Init events handler
         const events_handler = new EventsHandler();
+        const guild_id = guild.id;
 
         // Purge all entries of guild
-        console.log(`Purging ${guild.id}`)
-        //await events_handler.purgeGuild(guild.id);
+        console.log(`Purging ${guild_id}`);
+        if (guild_id === undefined) {
+            console.log("Guild id was undefined");
+        }
+        else {
+            await events_handler.purgeGuild(guild_id);
+        }
     }
 }
