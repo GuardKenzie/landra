@@ -8,6 +8,7 @@ module.exports = {
         const events_handler = new EventsHandler();
 
         // Purge all entries of guild
-        await events_handler.purgeGuild(guild.id);
+        console.log(`Purging ${guild.id}`)
+        //await events_handler.purgeGuild(guild.id);
     }
 }
