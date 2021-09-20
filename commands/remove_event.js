@@ -21,7 +21,7 @@ module.exports = {
         const all_events = await events_handler.getAllEvents(interaction.guild)
         
         if (all_events.length == 0) {
-            await interaction.reply({
+            await interaction.editReply({
                 content: "There are no events to remove",
                 ephemeral: true
             });

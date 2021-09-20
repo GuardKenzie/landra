@@ -19,7 +19,7 @@ module.exports = {
 
         if (joined_events.length == all_events.length) {
             // Check if the user has any events left to join
-            await interaction.reply({
+            await interaction.editReply({
                 content: "You have already joined all available events!",
                 ephemeral: true
             });

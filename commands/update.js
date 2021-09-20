@@ -45,7 +45,7 @@ module.exports = {
         const recurring_string = interaction.options.getString('recurring');
 
         if ([name, description, date_string, recurring_string].every(e => e === null)) {
-            await interaction.reply({
+            await interaction.editReply({
                 content: "You didn't provide any information to update",
                 ephemeral: true
             })
@@ -63,7 +63,7 @@ module.exports = {
         const date_status = parseDate(date_string, recurring);
 
         if (!date_status.valid) {
-            await interaction.reply({
+            await interaction.editReply({
                 content: date_status.error,
                 ephemeral: true
             });
@@ -77,7 +77,7 @@ module.exports = {
         
         // Check if there are no events
         if (all_events.length == 0) {
-            await interaction.reply({
+            await interaction.editReply({
                 content: "There are no events to update!",
                 ephemeral: true
             })

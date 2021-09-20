@@ -37,7 +37,7 @@ module.exports = {
             catch (error) {
                 console.error(error);
                 await interaction.reply({
-                    content: "There was an error while executing your command :sad:",
+                    content: "There was an error while executing your command",
                     ephemeral: true
                 })
             }
@@ -68,7 +68,7 @@ module.exports = {
             catch (error) {
                 console.error(error);
                 await interaction.reply({
-                    content: "There was an error while executing your selection :sad:",
+                    content: "There was an error while executing your selection",
                     ephemeral: true
                 })
             }

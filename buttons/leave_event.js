@@ -19,7 +19,7 @@ module.exports = {
 
         if (joined_events.length == 0) {
             // Check if the user has any events to leave
-            await interaction.reply({
+            await interaction.editReply({
                 content: "You have not joined any events yet!",
                 ephemeral: true
             });
