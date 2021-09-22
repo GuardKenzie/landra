@@ -151,9 +151,8 @@ async function postEventNotifications(client) {
             // Send message
             await channel.send(message_data)
                 .then(msg => {
-                    setTimeout(() => msg.delete(), 5 * 60 * 1000);
+                    setTimeout(() => msg.delete().catch(console.error), 5 * 60 * 1000);
                 })
-                .catch(console.error);
 
             // Handle deleting or updating event
             await events_handler.handleEventNotification(entry.event_id)
@@ -175,9 +174,8 @@ async function postEventNotifications(client) {
             // Send message
             await channel.send(message_data)
                 .then(msg => {
-                    setTimeout(() => msg.delete(), 60 * 60 * 1000);
+                    setTimeout(() => msg.delete().catch(console.error), 60 * 60 * 1000);
                 })
-                .catch(console.error);
         }
     }
 }
