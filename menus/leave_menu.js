@@ -22,9 +22,11 @@ module.exports = {
         const embed = await generateEventsList(interaction.guild, page);
 
         // Update event list
-        await parent_message.edit({
-            embeds: [embed]
-        });
+        if (parent_message !== null) {
+            await parent_message.edit({
+                embeds: [embed]
+            });
+        }
 
         // Update join list
         await interaction.editReply({
