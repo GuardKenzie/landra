@@ -256,6 +256,9 @@ async function generateEventsList(guild, page) {
     // If there are no events, we want to say page 0/0
     page = max_pages > 0 ? Math.abs(page % max_pages) : -1
 
+    // Now
+    const now = new Date();
+
     // init embed
     const embed = new MessageEmbed()
         .setColor(colour)
@@ -273,7 +276,7 @@ async function generateEventsList(guild, page) {
         // Get display names
         const display_names = []
         for (user_id of party_list) {
-            const member = await guild.members.fetch(user_id);
+            const member = await guild.members.fetch(user_id); // Performance could be improved by storing these
             display_names.push(member.displayName);
         }
 
@@ -291,9 +294,12 @@ async function generateEventsList(guild, page) {
                 "dddd[s at] kk:mm"
             )
             : event_entry.recurring == "monthly" ? (
-                        "[The] Do [of every month at] kk:mm"
+                "[The] Do [of every month at] kk:mm"
             )
-            : "MMM Do [at] kk:mm"
+            : events_entry.date.getFullYear() != now.getFullYear() ? (
+                "MMM Do YYYY [at] kk:mm"
+            )
+            :   "MMM Do [at] kk:mm"
 
         // Get time offset
         event_entry.date.setHours(event_entry.date.getHours() + time_offset);
