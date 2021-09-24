@@ -296,7 +296,7 @@ async function generateEventsList(guild, page) {
             : event_entry.recurring == "monthly" ? (
                 "[The] Do [of every month at] kk:mm"
             )
-            : events_entry.date.getFullYear() != now.getFullYear() ? (
+            : event_entry.date.getFullYear() != now.getFullYear() ? (
                 "MMM Do YYYY [at] kk:mm"
             )
             :   "MMM Do [at] kk:mm"
