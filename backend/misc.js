@@ -259,6 +259,9 @@ async function generateEventsList(guild, page) {
     // Now
     const now = new Date();
 
+    // Display name collection
+    const display_names_map = new Map();
+
     // init embed
     const embed = new MessageEmbed()
         .setColor(colour)
@@ -276,8 +279,14 @@ async function generateEventsList(guild, page) {
         // Get display names
         const display_names = []
         for (user_id of party_list) {
-            const member = await guild.members.fetch(user_id); // Performance could be improved by storing these
-            display_names.push(member.displayName);
+            if (display_names_map.has(user_id)) {
+                display_names.push(display_names_map.get(user_id));
+            }
+            else {
+                const member = await guild.members.fetch(user_id);
+                display_names.push(member.displayName);
+                display_names_map.set(user_id, member.displayName);
+            }   
         }
 
         // Party count
