@@ -7,6 +7,19 @@ const foodEmoji = require('./food')
 
 const event_regex = /Events \(page (?<page_string>\d+|NaN)\/\d+\)/
 
+
+async function sendErrorHandler(error, guild, channel) {
+    if (error.code === 50013 /* Insufficient permissions */) {
+        const guild_owner = await guild.members.fetch(guild.ownerId);
+        console.log(`Insufficient permissions error in ${guild.name}`);
+        await guild_owner.send(`I don't have permission to post notifications to ${channel.name} in ${guild.name}`)
+            .catch(console.error)
+    }
+    else {
+        console.error(error);
+    }
+}
+
 async function generateNotification(entry, guild, type) {
     // Init events handler
     const events_handler = new EventsHandler();
@@ -115,6 +128,9 @@ async function postDailyNotifications(client) {
         // Send message
         await channel.send({
             content: message_contents.join("\n\n")
+        })
+        .catch(async error => {
+            await sendErrorHandler(error, guild, channel);
         });
     }
 }
@@ -151,6 +167,9 @@ async function postEventNotifications(client) {
                 .then(msg => {
                     setTimeout(() => msg.delete().catch(console.error), 5 * 60 * 1000);
                 })
+                .catch(async error => {
+                    await sendErrorHandler(error, guild, channel);
+                });
 
             // Handle deleting or updating event
             await events_handler.handleEventNotification(entry.event_id)
@@ -174,6 +193,9 @@ async function postEventNotifications(client) {
                 .then(msg => {
                     setTimeout(() => msg.delete().catch(console.error), 60 * 60 * 1000);
                 })
+                .catch(async error => {
+                    await sendErrorHandler(error, guild, channel);
+                });
         }
     }
 }
