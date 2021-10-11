@@ -45,8 +45,11 @@ module.exports = {
         // Init
         const events_handler = new EventsHandler()
 
+        // Get time offset and adjust date
+        const time_offset = await events_handler.getPrintableOffset(interaction.guild);
+
         // Check if the date is valid
-        const date_status = parseDate(date_string, recurring);
+        const date_status = parseDate(date_string + time_offset, recurring);
 
         if (!date_status.valid) {
             await interaction.reply({
@@ -59,10 +62,6 @@ module.exports = {
 
         // Set date since it is ok
         const date = date_status.date.toDate();
-
-        // Get time offset and adjust date
-        const time_offset = await events_handler.getTimeOffset(interaction.guild);
-        date.setHours(date.getHours() - time_offset);
 
         // Schedule event
         await events_handler.newEvent(

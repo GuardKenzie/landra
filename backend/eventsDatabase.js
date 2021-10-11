@@ -426,6 +426,16 @@ class EventsHandler {
         else return offset.offset;
     }
 
+    async getPrintableOffset(guild) {
+        // Returns 0 padded, signed offset as a string
+        const time_offset = await this.getTimeOffset(guild);
+        const absolute_offset = Math.abs(time_offset);
+
+        const sign = time_offset < 0 ? "-" : "+";
+
+        return sign + String(absolute_offset).padStart(2, "0");
+    }
+
 
     async setTimeOffset(guild, offset) {
         await this.TimeOffsets.upsert({

@@ -59,8 +59,12 @@ module.exports = {
         // Set recurring to null if not recurring
         const recurring = recurring_string == "once" ? null : recurring_string
 
+        // Get time offset and adjust date
+        const time_offset = await events_handler.getPrintableOffset(interaction.guild);
+
+
         // Check if the date is valid
-        const date_status = parseDate(date_string, recurring);
+        const date_status = parseDate(date_string + time_offset, recurring);
 
         if (!date_status.valid) {
             await interaction.editReply({

@@ -12,6 +12,7 @@ module.exports = {
         const embed_fields = interaction.message.embeds[0].fields;
         const event_id = interaction.values[0];
         const event = await events_handler.getEvent(event_id);
+        const time_offset = await events_handler.getPrintableOffset(interaction.guild);
         
         // Get the relevant fields
         const name               = embed_fields.filter(field => field.name == "New name").map(field => field.value);
@@ -34,10 +35,10 @@ module.exports = {
         // Check if date is being updated and parse it
         const date_status = date_string.length == 0 
             ? parseDate(event.date, recurring) 
-            : parseDate(date_string[0], recurring);
+            : parseDate(date_string[0] + time_offset, recurring);
 
         if (!date_status.valid) {
-            await interaction.update({
+            await interaction.editReply({
                 content: date_status.error,
                 components: [],
                 embeds: []
@@ -48,10 +49,6 @@ module.exports = {
 
         // Set date since it is ok
         const date = date_status.date.toDate();
-
-        // Get time offset and adjust date
-        const time_offset = await events_handler.getTimeOffset(interaction.guild);
-        date.setHours(date.getHours() - time_offset);
 
         // Set the required attributes of update_data
         if (name.length > 0)          update_data.name        = name[0];

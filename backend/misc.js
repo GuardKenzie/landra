@@ -201,7 +201,7 @@ function parseDate(date_string, recurring) {
     const now = new Date();
     
     // Parse date
-    const date_format = "YYYY/MM/DD kk:mm";
+    const date_format = "YYYY/MM/DD kk:mmZ";
     const date        = moment(date_string, date_format);
     
     // Checks if a date is valid and returns an appropriate error
