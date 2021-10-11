@@ -133,7 +133,7 @@ module.exports = {
                 await interaction.reply({
                     content: "Categories are not valid channel options. Please try again.",
                     ephemeral: true
-                })
+                }).catch(console.error);
 
                 return
             }
@@ -145,7 +145,7 @@ module.exports = {
                 
                 await interaction.reply({
                     content: `${channel} has been set to \`${type}\``
-                })
+                }).catch(console.error);
             }
 
             // configure channel unset
@@ -154,7 +154,7 @@ module.exports = {
 
                 await interaction.reply({
                     content: `${channel} is no longer set to \`${type}\``
-                })
+                }).catch(console.error);
             }
         }
 
@@ -168,7 +168,7 @@ module.exports = {
 
                 await interaction.reply({
                     content: `${role} can now manage events!`
-                })
+                }).catch(console.error);
 
                 return
             }
@@ -178,7 +178,7 @@ module.exports = {
 
                 await interaction.reply({
                     content: `${role} can no longer manage events!`
-                })
+                }).catch(console.error);
 
                 return
             }
@@ -198,7 +198,7 @@ module.exports = {
 
             await interaction.reply({
                 content: `Offset set to \`${time_offset_string}\``
-            })
+            }).catch(console.error);
 
         }
 
@@ -253,7 +253,7 @@ module.exports = {
             // Send embed
             await interaction.reply({
                 embeds: [embed]
-            })
+            }).catch(console.error);
         }
 
     },

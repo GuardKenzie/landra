@@ -9,7 +9,7 @@ module.exports = {
         // Pong back
         await interaction.reply({
             content: 'Pong!'
-        });
+        }).catch(console.error);
         return true
     },
 };

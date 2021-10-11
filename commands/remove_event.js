@@ -24,7 +24,7 @@ module.exports = {
             await interaction.editReply({
                 content: "There are no events to remove",
                 ephemeral: true
-            });
+            }).catch(console.error);
 
             return;
         }
@@ -55,6 +55,6 @@ module.exports = {
             content: "Please pick an event to remove",
             components: [remove_menu_row],
             ephemeral: true
-        });
+        }).catch(console.error);
 	},
 };

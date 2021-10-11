@@ -22,7 +22,7 @@ module.exports = {
             await interaction.editReply({
                 content: "You have not joined any events yet!",
                 ephemeral: true
-            });
+            }).catch(console.error);
 
             return
         } 
@@ -56,6 +56,6 @@ module.exports = {
             content: "Please pick an event to leave",
             components: [leave_menu_row],
             ephemeral: true
-        });
+        }).catch(console.error);
 	},
 };

@@ -54,6 +54,6 @@ module.exports = {
                 page_button_row, 
                 user_action_row
             ]
-        });
+        }).catch(console.error);
     }
 }

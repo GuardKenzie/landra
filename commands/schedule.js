@@ -75,7 +75,7 @@ module.exports = {
         await interaction.reply({
             content: `Event \`${event_name}\` scheduled for \`${date_string}\`!`,
             ephemeral: true
-        })
+        }).catch(console.error);
 
     }
 }

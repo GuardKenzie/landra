@@ -11,6 +11,7 @@ module.exports = {
         const page = getPageFromEventsList(interaction.message);
         const embed = await generateEventsList(interaction.guild, page);
         
-		await interaction.editReply({embeds: [embed]});
+		await interaction.editReply({embeds: [embed]})
+            .catch(console.error);
 	},
 };

@@ -14,7 +14,7 @@ module.exports = {
         const embed = await generateEventsList(interaction.guild, last_page);
         
 
-		await interaction.editReply({embeds: [embed]});
-        
+		await interaction.editReply({embeds: [embed]})
+            .catch(console.error);
 	},
 };

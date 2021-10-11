@@ -70,7 +70,7 @@ module.exports = {
             await interaction.editReply({
                 content: date_status.error,
                 ephemeral: true
-            });
+            }).catch(console.error);
 
             return;
         }
@@ -84,7 +84,7 @@ module.exports = {
             await interaction.editReply({
                 content: "There are no events to update!",
                 ephemeral: true
-            })
+            }).catch(console.error);
 
             return
         }
@@ -125,7 +125,7 @@ module.exports = {
             components: [event_selection_row],
             embeds: [embed],
             ephemeral: true
-        });
+        }).catch(console.error);
 
     }
 }

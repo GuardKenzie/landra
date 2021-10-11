@@ -25,13 +25,13 @@ module.exports = {
         if (parent_message !== null) {
             await parent_message.edit({
                 embeds: [embed]
-            });
+            }).catch(console.error);
         }
 
         // Update join list
         await interaction.editReply({
             content: "Event left",
             components: []
-        })
+        }).catch(console.error);
 	},
 };

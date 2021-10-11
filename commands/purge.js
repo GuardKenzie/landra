@@ -16,7 +16,7 @@ module.exports = {
 
         await interaction.editReply({
             content: "Purged",
-        });
+        }).catch(console.error);
     }
 
 }

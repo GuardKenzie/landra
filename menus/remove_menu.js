@@ -16,6 +16,6 @@ module.exports = {
         await interaction.editReply({
             content: "Event removed! Refresh the events list to see the changes.",
             components: []
-        })
+        }).catch(console.error);
 	},
 };

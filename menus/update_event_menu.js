@@ -42,7 +42,7 @@ module.exports = {
                 content: date_status.error,
                 components: [],
                 embeds: []
-            })
+            }).catch(console.error);
 
             return
         }
@@ -64,6 +64,6 @@ module.exports = {
             content: "Event updated. Refresh the events list to see the changes.",
             components: [],
             embeds: []
-        })
+        }).catch(console.error);
 	},
 };
