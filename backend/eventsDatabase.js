@@ -1,5 +1,6 @@
 const { Op, Sequelize } = require('sequelize');
 const Crypto = require('crypto');
+const { getNthWeekday, whichNthWeekday } = require('./getNthWeekday');
 
 // A class that handles all database operations. Methods:
 
@@ -346,6 +347,7 @@ class EventsHandler {
                 }
             })
         }
+
         else if (event.recurring == "monthly") {
             // Date
             event.date.setMonth(event.date.getMonth() + 1);
@@ -359,6 +361,29 @@ class EventsHandler {
                 }
             })
         }
+
+        else if (event.recurring == "monthly_by_weekday") {
+            // Date
+            const { weekday, n } = whichNthWeekday(event.date);
+            event.date.setMonth(event.date.getMonth() + 1);
+
+            const date = getNthWeekday(
+                event.date.getFullYear(), 
+                event.date.getMonth(), 
+                weekday, n
+            ).set({ "hour": event.date.getHours(), "minute": event.date.getMinutes() });
+
+            await this.updateEvent(event_id, { date: date });
+
+            // Kick
+            await this.Users.destroy({
+                where: {
+                    event_id: event_id,
+                    user_id: party_list,
+                }
+            })
+        }
+
         else {
             await this.deleteEvent(event_id);
         }

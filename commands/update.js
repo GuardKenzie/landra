@@ -30,9 +30,10 @@ module.exports = {
         .addStringOption(option => 
             option.setName('recurring')
                 .setDescription('When the event should recurr')
-                .addChoice("Weekly", "weekly")
-                .addChoice("Monthly", "monthly")
                 .addChoice("Once", "once")
+                .addChoice("Weekly", "weekly")
+                .addChoice("Monthly (by day of the month)", "monthly")
+                .addChoice("Monthly (by weekday)", "monthly_by_weekday")
         ),
 
     
@@ -64,7 +65,9 @@ module.exports = {
 
 
         // Check if the date is valid
-        const date_status = parseDate(date_string + time_offset, recurring);
+        const date_status = Boolean(date_string) 
+            ? parseDate(date_string + time_offset, recurring)
+            : parseDate(date_string, recurring)
 
         if (!date_status.valid) {
             await interaction.editReply({

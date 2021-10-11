@@ -3,6 +3,7 @@ const { MessageEmbed, DataResolver } = require('discord.js');
 const moment = require('moment');
 const { colour } = require('../config.json');
 const foodEmoji = require('./food')
+const { whichNthWeekday } = require('./getNthWeekday');
 
 
 const event_regex = /Events \(page (?<page_string>\d+|NaN)\/\d+\)/
@@ -307,13 +308,20 @@ async function generateEventsList(guild, page) {
             display_names.push("Nobody");
         }
 
+        // Get the nth weekday in case recurring by weekday
+        const { weekday, n } = whichNthWeekday(event_entry.date);
+        const ordinal_endings = ["", "st", "nd", "rd", "th"];
+
         // Set the appropriate date format
         const date_format = 
             event_entry.recurring == "weekly" ? (
                 "dddd[s at] kk:mm"
             )
             : event_entry.recurring == "monthly" ? (
-                "[The] Do [of every month at] kk:mm"
+                "[Every] Do [of the month at] kk:mm"
+            )
+            : event_entry.recurring == "monthly_by_weekday" ? (
+                `[Every ${String(n) + ordinal_endings[n]}] dddd [of the month at] kk:mm`
             )
             : event_entry.date.getFullYear() != now.getFullYear() ? (
                 "MMM Do YYYY [at] kk:mm"
