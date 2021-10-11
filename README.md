@@ -11,5 +11,4 @@
 
 ## To-Do
 - [ ] Custom roles when members join events
-- [x] Purge a member when they leave a guild
-- [x] Last refreshed timestamp for event list
+- [ ] Custom emojis for events
