@@ -255,6 +255,17 @@ function parseDate(date_string, recurring) {
         }
     }
 
+    // Check if we are repeating by weekday and if the provided date is the nth > 5 of this month
+    const weekday = whichNthWeekday(date.toDate());
+    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+    if (recurring == "monthly_by_weekday" && weekday.n > 4) {
+        return {
+            valid: false,
+            error: `You cannot schedule a monthly event to repeat on every ${weekday.n}th ${weekdays[weekday.weekday - 1]} of the month`
+        }
+    }
+
     return { valid: true, date: date };
 }
 
