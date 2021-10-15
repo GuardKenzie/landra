@@ -329,10 +329,10 @@ async function generateEventsList(guild, page) {
                 "dddd[s at] kk:mm"
             )
             : event_entry.recurring == "monthly" ? (
-                "[Every] Do [of the month at] kk:mm"
+                "[The] Do [of every month at] kk:mm"
             )
             : event_entry.recurring == "monthly_by_weekday" ? (
-                `[Every ${String(n) + ordinal_endings[n]}] dddd [of the month at] kk:mm`
+                `[The ${String(n) + ordinal_endings[n]}] dddd [of every month at] kk:mm`
             )
             : event_entry.date.getFullYear() != now.getFullYear() ? (
                 "MMM Do YYYY [at] kk:mm"
