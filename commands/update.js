@@ -38,12 +38,31 @@ module.exports = {
 
     
     async execute(interaction) {
-        await interaction.deferReply({ ephemeral: true });
         // Get and parse options
         const name             = interaction.options.getString('name');
         const description      = interaction.options.getString('description');
         const date_string      = interaction.options.getString('date');
         const recurring_string = interaction.options.getString('recurring');
+
+        // Check if field lengths are invalid
+        if (name?.length > 180) {
+            await interaction.reply({
+                content: `Event name can not be longer than 180 characters`,
+                ephemeral: true
+            })
+
+            return;
+        }
+        if (description?.length > 1024) {
+            await interaction.reply({
+                content: `Event description can not be longer than 1024 characters`,
+                ephemeral: true
+            })
+
+            return;
+        }
+
+        await interaction.deferReply({ ephemeral: true });
 
         if ([name, description, date_string, recurring_string].every(e => e === null)) {
             await interaction.editReply({
@@ -94,7 +113,8 @@ module.exports = {
 
         const event_options = all_events.map(event => {
             return {
-                label: event.name,
+                label: event.name.substring(0,90) +
+                    (event.name.length > 90 ? "..." : ""),
                 value: event.event_id,
                 description: event.description.substring(0, 50) +
                     (event.description.length > 50 ? "..." : ""),
@@ -103,7 +123,7 @@ module.exports = {
                     id: null
                 }
             }
-        });
+        })
 
         const event_selection_row = new MessageActionRow()
             .addComponents(

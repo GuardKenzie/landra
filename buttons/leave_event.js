@@ -31,7 +31,8 @@ module.exports = {
             if (joined_events.includes(event.event_id)) {
                 // We can only leave events we have joined
                 event_options.push({
-                    label: event.name,
+                    label: event.name.substring(0,90) +
+                        (event.name.length > 90 ? "..." : ""),
                     value: event.event_id,
                     description: event.description.substring(0, 50) +
                         (event.description.length > 50 ? "..." : ""),

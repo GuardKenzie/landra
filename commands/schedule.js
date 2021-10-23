@@ -43,6 +43,24 @@ module.exports = {
         const description = interaction.options.getString('description');
         const recurring   = interaction.options.getString('recurring');
 
+        // Check if field lengths are invalid
+        if (event_name.length > 180) {
+            await interaction.reply({
+                content: `Event name can not be longer than 180 characters`,
+                ephemeral: true
+            })
+
+            return;
+        }
+        if (description.length > 1024) {
+            await interaction.reply({
+                content: `Event description can not be longer than 1024 characters`,
+                ephemeral: true
+            })
+
+            return;
+        }
+
         // Init
         const events_handler = new EventsHandler()
 

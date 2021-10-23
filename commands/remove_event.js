@@ -31,10 +31,11 @@ module.exports = {
 
         const event_options = all_events.map(event => {
             return {
-                label: event.name,
+                label: event.name.substring(0,90) +
+                    (event.name.length > 90 ? "..." : ""),
                 value: event.event_id,
                 description: event.description.substring(0, 50) +
-                        (event.description.length > 50 ? "..." : ""),
+                    (event.description.length > 50 ? "..." : ""),
                 emoji: {
                     name: foodEmoji(event.event_id),
                     id: null
