@@ -166,6 +166,7 @@ async function postEventNotifications(client) {
         const channel = await guild.channels.fetch(entry.channel_id)
             .catch(async error => {
                 if (error.code === 10003 /* Unknown channel */) {
+                    console.log({ id: entry.channel_id })
                     await events_handler.removeChannelType(
                         { id: entry.channel_id },
                         "notifications"
