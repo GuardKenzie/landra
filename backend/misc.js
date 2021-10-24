@@ -82,8 +82,23 @@ async function postDailyNotifications(client) {
 
     for (entry of all_channels) {
         // Init
-        const guild   = await client.guilds.fetch(entry.guild_id);
-        const channel = await guild.channels.fetch(entry.channel_id);
+        const guild   = await client.guilds.fetch(entry.guild_id)
+            .catch(error => { console.error(error); return; });
+        const channel = await guild.channels.fetch(entry.channel_id)
+            .catch(async error => {
+                if (error.code === 10003 /* Unknown channel */) {
+                    await events_handler.removeChannelType(
+                        { id: entry.channel_id },
+                        "daily"
+                    )
+                }
+
+                else {
+                    console.error(error)
+                }
+
+                return;
+            });
 
         // We don't want non daily channels
         if (entry.type != "daily") continue;
@@ -146,8 +161,23 @@ async function postEventNotifications(client) {
     // Loop over channel and handle each
     for (entry of all_channels) {
         // Init
-        const guild   = await client.guilds.fetch(entry.guild_id);
-        const channel = await guild.channels.fetch(entry.channel_id);
+        const guild   = await client.guilds.fetch(entry.guild_id)
+            .catch(error => { console.error(error); return; });
+        const channel = await guild.channels.fetch(entry.channel_id)
+            .catch(async error => {
+                if (error.code === 10003 /* Unknown channel */) {
+                    await events_handler.removeChannelType(
+                        { id: entry.channel_id },
+                        "notifications"
+                    )
+                }
+
+                else {
+                    console.error(error)
+                }
+
+                return;
+            });
         const now     = new Date()
 
         // Check if channel is for event notifications

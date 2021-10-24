@@ -223,14 +223,12 @@ module.exports = {
 
             for (entry of all_channels) {
                 // get the channel
-                const channel = await interaction.guild.channels.fetch(entry.channel_id)
-
                 const title = entry.type == "daily" 
                     ? ":envelope:⠀Daily notifications channel" 
                     : ":alarm_clock:⠀Event notifications channel";
                 
                 // Add to embed
-                embed.addField(title, channel.toString());
+                embed.addField(title, `<#${entry.channel_id}>`);
             }
 
 
