@@ -38,7 +38,6 @@ module.exports = {
 				console.log(`Purging ${all_guilds.get(entry.guild_id).name}`)
 
 				await events_handler.purgeGuild(entry.guild_id);
-				continue
 			}
 		}
 
