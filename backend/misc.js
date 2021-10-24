@@ -88,7 +88,10 @@ async function postDailyNotifications(client) {
             .catch(async error => {
                 if (error.code === 10003 /* Unknown channel */) {
                     await events_handler.removeChannelType(
-                        { id: entry.channel_id },
+                        { 
+                            id: entry.channel_id,
+                            guild: { id: entry.guild_id }
+                        },
                         "daily"
                     )
                 }
@@ -166,9 +169,11 @@ async function postEventNotifications(client) {
         const channel = await guild.channels.fetch(entry.channel_id)
             .catch(async error => {
                 if (error.code === 10003 /* Unknown channel */) {
-                    console.log({ id: entry.channel_id })
                     await events_handler.removeChannelType(
-                        { id: entry.channel_id },
+                        { 
+                            id: entry.channel_id,
+                            guild: { id: entry.guild_id }
+                        },
                         "notifications"
                     )
                 }
