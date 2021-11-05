@@ -33,10 +33,16 @@ res = c.fetchall()
 if len(res) > 0:
     print(f"{bcolors.FAIL}=== UPDATE UNSAFE ==={bcolors.ENDC}", "")
 
-# Pull if ok
+# Ask if pull and pull if ok
 else:
-    print(f"{bcolors.OKGREEN}=== Pulling ==={bcolors.ENDC}")
-    os.system("git pull")
+    answer = input(f"{bcolors.OKGREEN}Update is ok. Pull?{bcolors.ENDC} [Y/n] ").lower()
+
+    if answer in ["yes", "y", ""]:
+        print(f"{bcolors.OKBLUE}=== Pulling ==={bcolors.ENDC}")
+        os.system("git pull")
+
+    elif answer not in ["n", "no"]:
+        print("Reply ambiguous, assuming no.")
 
 # Print what went wrong
 for event in res:
