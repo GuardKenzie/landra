@@ -12,5 +12,5 @@
 ## To-Do
 - [ ] Clean up EventsManager to include useful functions such as getOffsetTime(event) etc.
 - [ ] Add /announce command to post a small widget to announce a new event and allow users to sign up
-- [ ] Custom roles when members join events.
+- [ ] Custom roles when members join events
 - [ ] Custom emojis for events
