@@ -1,10 +1,20 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { token } = require('./secret.json');
+const { token, topgg_token, debug } = require('./secret.json');
+const { AutoPoster } = require('topgg-autoposter');
+
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS] });
 
+// Create top.gg autoposter
+if (!debug) {
+    const auto_poster = AutoPoster(topgg_token, client);
+
+    auto_poster.on('posted', () => {
+        console.log('-> Posted stats to Top.gg!')
+    });
+}
 
 /*
     === Read command files ===
