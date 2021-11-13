@@ -10,10 +10,6 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
 // Create top.gg autoposter
 if (!debug) {
     const auto_poster = AutoPoster(topgg_token, client);
-
-    auto_poster.on('posted', () => {
-        console.log('-> Posted stats to Top.gg!')
-    });
 }
 
 /*
