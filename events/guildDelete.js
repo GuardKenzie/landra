@@ -8,6 +8,8 @@ module.exports = {
         const events_handler = new EventsHandler();
         const guild_id = guild.id;
 
+        console.log("Guild deleted " + guild);
+
         // Purge all entries of guild
         console.log(`Purging ${guild_id}`);
         if (guild_id === undefined) {
