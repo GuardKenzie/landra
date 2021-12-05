@@ -21,7 +21,7 @@ module.exports = {
                 
                 // print error if not ok
                 if (checks_ok.some(result => result === false)) {
-                    await interaction.reply({
+                    await interaction.editReply({
                         content: "You do not have permission to execute this command!",
                         ephemeral: true
                     }).catch(console.error);
@@ -36,10 +36,10 @@ module.exports = {
             }
             catch (error) {
                 console.error(error);
-                await interaction.reply({
+                await interaction.editReply({
                     content: "There was an error while executing your command",
                     ephemeral: true
-                })
+                }).catch(console.error);
             }
         }
 
@@ -67,9 +67,10 @@ module.exports = {
             }
             catch (error) {
                 console.error(error);
-                await interaction.reply({
+                await interaction.editReply({
                     content: "There was an error while executing your selection",
-                    ephemeral: true
+                    ephemeral: true,
+                    components: []
                 }).catch(console.error);
             }
         }
