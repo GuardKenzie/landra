@@ -21,6 +21,83 @@ async function sendErrorHandler(error, guild, channel) {
     }
 }
 
+
+async function announcementEmbed(event) {
+    // Init handler
+    const events_handler = new EventsHandler();
+
+    // Get this day
+    const now = new Date();
+
+    // Get time offset
+    const time_offset = await events_handler.getTimeOffset({ id: event.guild_id });
+
+    // Update date
+    event.date.setHours(event.date.getHours() + time_offset);
+
+    // Get party
+    const party_list = await events_handler.getParty(event.event_id);
+
+    // Get display names
+    const display_names = []
+    for (user_id of party_list) {
+        display_names.push(`<@${user_id}>`);
+    }
+
+    // Party count
+    const party_count = display_names.length
+
+    // Check if names are empty
+    if (!display_names.length) {
+        display_names.push("Nobody");
+    }
+
+    // Get the nth weekday in case recurring by weekday
+    const { weekday, n } = whichNthWeekday(event.date);
+    const ordinal_endings = ["", "st", "nd", "rd", "th"];
+
+    // Set the appropriate date format
+    const date_format = 
+        event.recurring == "weekly" ? (
+            "dddd[s at] kk:mm"
+        )
+        : event.recurring == "monthly" ? (
+            "[The] Do [of every month at] kk:mm"
+        )
+        : event.recurring == "monthly_by_weekday" ? (
+            `[The ${String(n) + ordinal_endings[n]}] dddd [of every month at] kk:mm`
+        )
+        : event.date.getFullYear() != now.getFullYear() ? (
+            "MMM Do YYYY [at] kk:mm"
+        )
+        :   "MMM Do [at] kk:mm"
+
+    // Get time offset
+    event.date.setHours(event.date.getHours() + time_offset);
+
+    const date_string = moment(event.date).format(date_format);
+    
+    // Get food emoji
+    const emoji = foodEmoji(event.event_id);
+
+    // Create embed for announcement
+    const embed = new MessageEmbed()
+        .setTitle(`${emoji}⠀${event.name} (${date_string})`)
+        .setDescription(event.description)
+        .setThumbnail(`https://a.nowhere/${event.event_id}.png`)
+        .setColor(colour)
+        .addFields(
+            {
+                name:   `Party (${party_count})`,
+                value:  display_names.join("\n"),
+                inline: false
+            }
+        );
+    
+    return embed;
+}
+
+
 async function generateNotification(entry, guild, type) {
     // Init events handler
     const events_handler = new EventsHandler();
@@ -444,4 +521,4 @@ async function setStatus(client) {
 }
 
 
-module.exports = { setStatus, hasEventPermissions, isAdmin, postDailyNotifications, postEventNotifications ,generateEventsList, getPageFromEventsList, parseDate };
+module.exports = { announcementEmbed, setStatus, hasEventPermissions, isAdmin, postDailyNotifications, postEventNotifications ,generateEventsList, getPageFromEventsList, parseDate };
