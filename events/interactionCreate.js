@@ -24,7 +24,7 @@ module.exports = {
                     await interaction.reply({
                         content: "You do not have permission to execute this command!",
                         ephemeral: true
-                    })
+                    }).catch(console.error);
 
                     return
                 }
@@ -70,7 +70,7 @@ module.exports = {
                 await interaction.reply({
                     content: "There was an error while executing your selection",
                     ephemeral: true
-                })
+                }).catch(console.error);
             }
         }
 
