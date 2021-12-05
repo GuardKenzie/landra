@@ -2,8 +2,11 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageActionRow, MessageSelectMenu } = require('discord.js');
 const EventsHandler = require('../backend/eventsDatabase');
 const foodEmoji = require('../backend/food');
+const { hasEventPermissions } = require('../backend/misc');
 
 module.exports = {
+    checks: [hasEventPermissions],
+
     data: new SlashCommandBuilder()
         .setName('announce')
         .setDescription('Post an announcement widget for an event')
