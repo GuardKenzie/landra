@@ -13,6 +13,7 @@
 - A customisable time offset (`UTC+/-N`)
 - Notifications when events start
 - Events can be scheduled as one-time, weekly or monthly
+- Event announcement widgets
 - Cute emojis!
 
 ## Getting started
