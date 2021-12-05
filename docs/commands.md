@@ -5,6 +5,7 @@ Here is a list of all available commands. All commands are availabel to members 
 - `/schedule`
 - `/remove`
 - `/update`
+- `/announce`
 
 #### Arguments
 Command arguments are denoted `argument:`.
@@ -92,6 +93,18 @@ This command will remove you from all events scheduled with this bot.
 
 #### Note
 This command will erase all your entries in the bot's database. This will affect events in **ALL GUILDS**!
+
+
+## Announce
+This command will post an announcement widget in the current channel where users can join the event if they wish.
+
+#### Usage
+```
+/announce | message:
+```
+
+- `message` is an optional message to include with the announcement.
+
 
 
 # Config commands
