@@ -1,0 +1,1 @@
+node index.js 2>&1 | ts "[%d. %b. %y - %H:%M]" | tee -a landra.log
