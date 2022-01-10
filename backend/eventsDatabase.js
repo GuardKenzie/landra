@@ -16,15 +16,16 @@ class EventsHandler {
         });
 
         this.Events = this.sequelize.define('events', {
-            guild_id:    Sequelize.STRING,
-            name:        Sequelize.STRING,
-            description: Sequelize.STRING,
-            date:        Sequelize.DATE,
+            guild_id:       Sequelize.STRING,
+            name:           Sequelize.STRING,
+            description:    Sequelize.STRING,
+            date:           Sequelize.DATE,
             event_id: {
                 type: Sequelize.STRING,
                 unique: true
             },
-            recurring:  Sequelize.STRING
+            recurring:      Sequelize.STRING,
+            voice_channel:  Sequelize.STRING
         });
 
         this.Channels = this.sequelize.define('channels', {
@@ -58,7 +59,7 @@ class EventsHandler {
         this.TimeOffsets.sync();
     }
 
-    async newEvent(guild, name, description, date, recurring) {
+    async newEvent(guild, name, description, date, recurring, channel) {
         const event_id = Crypto.randomBytes(32).toString('hex');
         
         const event = await this.Events.create({
@@ -67,7 +68,8 @@ class EventsHandler {
             description: description,
             date: date,
             event_id: event_id,
-            recurring: recurring
+            recurring: recurring,
+            voice_channel: channel.id
         });
 
         return event;

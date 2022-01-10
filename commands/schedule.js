@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const EventsHandler = require('../backend/eventsDatabase');
 const { parseDate, hasEventPermissions } = require('../backend/misc');
+const { ChannelType } = require('discord-api-types/v9');
 
 module.exports = {
     checks: [hasEventPermissions],
@@ -33,8 +34,15 @@ module.exports = {
                 .addChoice("Weekly", "weekly")
                 .addChoice("Monthly (by day of the month)", "monthly")
                 .addChoice("Monthly (by weekday)", "monthly_by_weekday")
-        ),
+        )
 
+        .addChannelOption(option =>
+            option.setName('channel')
+                .setDescription('The voice channel the event will be taking place')
+                .addChannelType(ChannelType.GuildVoice)
+        ),
+    
+    guildCommand: true,
     
     async execute(interaction) {
         // Get and parse options
@@ -42,6 +50,7 @@ module.exports = {
         const event_name  = interaction.options.getString('name');
         const description = interaction.options.getString('description');
         const recurring   = interaction.options.getString('recurring');
+        const channel     = interaction.options.getChannel('channel');
 
         // Check if field lengths are invalid
         if (event_name.length > 180) {
@@ -88,7 +97,8 @@ module.exports = {
             event_name, 
             description, 
             date,
-            recurring
+            recurring,
+            channel
         );
 
         await interaction.reply({
