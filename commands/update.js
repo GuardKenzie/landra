@@ -3,7 +3,8 @@ const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.j
 const EventsHandler = require('../backend/eventsDatabase');
 const { parseDate, hasEventPermissions } = require('../backend/misc')
 const { colour } = require('../config.json');
-const foodEmoji = require('../backend/food') 
+const foodEmoji = require('../backend/food');
+const { ChannelType } = require('discord-api-types/v9');
 
 module.exports = {
     checks: [hasEventPermissions],
@@ -34,6 +35,12 @@ module.exports = {
                 .addChoice("Weekly", "weekly")
                 .addChoice("Monthly (by day of the month)", "monthly")
                 .addChoice("Monthly (by weekday)", "monthly_by_weekday")
+        )
+        
+        .addChannelOption(option =>
+            option.setName('channel')
+            .setDescription('The voice channel the event will be taking place')
+            .addChannelType(ChannelType.GuildVoice)
         ),
 
     
