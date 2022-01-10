@@ -302,6 +302,30 @@ async function postEventNotifications(client) {
         for (entry of events_in_hour) {
             const message_data = await generateNotification(entry, guild, 1);
 
+            // Check if the guild wants proper discord events
+            // TODO: Check for permission
+            //       Check for config
+            const guild_event_manager = guild.scheduledEvents;
+
+            const voice_channel = await guild.channels.fetch(entry.voice_channel)
+                .catch(() => {return null});
+
+            const entity_type = entry.voice_channel === null
+                ? "NONE"
+                : "VOICE"
+
+            await guild_event_manager.create(
+                {
+                    name: entry.name,
+                    description: entry.description,
+                    scheduledStartTime: entry.date,
+                    privacyLevel: "GUILD_ONLY",
+                    entityType: entity_type,
+                    channel: voice_channel,
+                }
+            )
+
+
             // Send message
             await channel.send(message_data)
                 .then(msg => {
