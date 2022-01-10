@@ -18,7 +18,10 @@ module.exports = {
         const parent_message = await interaction.channel.messages.fetch(parent_message_id);
 
         // Get the page
-        const page = getPageFromEventsList(parent_message);
+        const page = getPageFromEventsList(parent_message)
+            .catch(error => {
+                return 0;
+            });
 
         const embed = await generateEventsList(interaction.guild, page);
 
