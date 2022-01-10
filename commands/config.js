@@ -3,6 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const EventsHandler = require('../backend/eventsDatabase');
 const { colour } = require("../config.json")
 const { isAdmin } = require("../backend/misc");
+const { ChannelType } = require('discord-api-types/v9');
 
 module.exports = {
     checks: [isAdmin],
@@ -37,6 +38,7 @@ module.exports = {
                         .setName("channel")
                         .setDescription("The channel to configure")
                         .setRequired(true)
+                        .addChannelType(ChannelType.GuildText)
                 )
                 .addStringOption(option =>
                     option
@@ -127,16 +129,6 @@ module.exports = {
             const channel = await interaction.options.getChannel("channel");
             const type    = await interaction.options.getString("type");
             const action  = await interaction.options.getString("action");
-
-            // Check if the provided channel is a text channel
-            if (channel.type != "GUILD_TEXT") {
-                await interaction.reply({
-                    content: "Categories are not valid channel options. Please try again.",
-                    ephemeral: true
-                }).catch(console.error);
-
-                return
-            }
 
             // configure channel set
             if (action == "set") {
