@@ -101,8 +101,16 @@ module.exports = {
             channel
         );
 
+        // Check permissions and create notice if we do not have manage_events
+        const my_permissions = interaction.guild.me.permissions
+
+        // Create notice if channel is set but I don't have permission
+        const permission_notice = channel && !my_permissions.has('MANAGE_EVENTS')
+            ? 'I notice you set a voice channel for your event but I do not have permission to create discord events in this guild. The event will work as if no channel was specified unless this is changed!'
+            : '';
+
         await interaction.reply({
-            content: `Event \`${event_name}\` scheduled for \`${date_string}\`!`,
+            content: `Event \`${event_name}\` scheduled for \`${date_string}\`!\n${permission_notice}`,
             ephemeral: true
         }).catch(console.error);
 
