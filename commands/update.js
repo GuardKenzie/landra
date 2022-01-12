@@ -39,8 +39,8 @@ module.exports = {
         
         .addChannelOption(option =>
             option.setName('channel')
-            .setDescription('The voice channel the event will be taking place')
-            .addChannelType(ChannelType.GuildVoice)
+                .setDescription('The voice channel the event will be taking place')
+                .addChannelType(ChannelType.GuildVoice)
         ),
     
     guildCommand: true,

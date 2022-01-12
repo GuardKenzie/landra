@@ -133,19 +133,35 @@ async function generateNotification(entry, guild, type) {
 
     // Init embed
     const notification_colour = type == 1 ? "ORANGE" : "RED";
+
+    // Init fields
+    const fields = [
+        {
+            name: "Description",
+            value: entry.description
+        },
+    ]
+
+    // push voice channel if needed
+    if (entry.voice_channel) {
+        fields.push({
+            name: "Voice channel",
+            value: `<#${entry.voice_channel}>`
+        });
+    }
+
+    // Push party list
+    fields.push({
+        name: `Party (${party_count})`,
+        value: display_names.join("\n")
+    })
+
+
+    // Create embed
     const embed = new MessageEmbed()
         .setTitle(embed_title)
         .setColor(notification_colour)
-        .addFields(
-            {
-                name: "Description",
-                value: entry.description
-            },
-            {
-                name: `Party (${party_count})`,
-                value: display_names.join("\n")
-            }
-        );
+        .addFields(fields);
     
     return { content: mentions.join(" "), embeds: [embed] };
 }
@@ -490,8 +506,13 @@ async function generateEventsList(guild, page) {
         // Get food emoji
         const emoji = foodEmoji(event_entry.event_id);
 
-        // Update embed
-        embed.addFields(
+        // Push voice channel under party list
+        if (event_entry.voice_channel) {
+            display_names.push('\n**Voice Channel**')
+            display_names.push(`<#${event_entry.voice_channel}>`)
+        }
+
+        const fields = [
             {
                 name: `${emoji}⠀${event_entry.name} (${date_string})`, 
                 value: event_entry.description, 
@@ -507,7 +528,10 @@ async function generateEventsList(guild, page) {
                 value: "⠀",
                 inline: false
             }
-        );
+        ]
+
+        // Update embed
+        embed.addFields(fields);
     }
 
     return embed

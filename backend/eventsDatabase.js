@@ -69,7 +69,7 @@ class EventsHandler {
             date: date,
             event_id: event_id,
             recurring: recurring,
-            voice_channel: channel.id
+            voice_channel: channel?.id
         });
 
         return event;
