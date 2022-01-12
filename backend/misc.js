@@ -323,7 +323,7 @@ async function postEventNotifications(client) {
             const permissions = guild.me.permissions
 
             // Check if the event has a channel associated with it and we have permission
-            if (entry.channel && permissions.has('MANAGE_EVENTS')) {
+            if (entry.voice_channel && permissions.has('MANAGE_EVENTS')) {
                 // Get event manager
                 const guild_event_manager = guild.scheduledEvents;
 
