@@ -42,7 +42,8 @@ module.exports = {
             .setDescription('The voice channel the event will be taking place')
             .addChannelType(ChannelType.GuildVoice)
         ),
-
+    
+    guildCommand: true,
     
     async execute(interaction) {
         // Get and parse options
@@ -50,6 +51,7 @@ module.exports = {
         const description      = interaction.options.getString('description');
         const date_string      = interaction.options.getString('date');
         const recurring_string = interaction.options.getString('recurring');
+        const channel          = interaction.options.getChannel('channel'); 
 
         // Check if field lengths are invalid
         if (name?.length > 180) {
@@ -71,7 +73,7 @@ module.exports = {
 
         await interaction.deferReply({ ephemeral: true });
 
-        if ([name, description, date_string, recurring_string].every(e => e === null)) {
+        if ([name, description, date_string, recurring_string, channel].every(e => e === null)) {
             await interaction.editReply({
                 content: "You didn't provide any information to update",
                 ephemeral: true
@@ -150,7 +152,8 @@ module.exports = {
         if (description)        embed.addFields({ name: "New description", value: description })
         if (date_string)        embed.addFields({ name: "New date",        value: date_string });
         if (recurring_string)   embed.addFields({ name: "Recurring",       value: recurring_string });
-    
+        if (channel)            embed.addFields({ name: "Voice channel",   value: channel.toString() })
+
         await interaction.editReply({
             components: [event_selection_row],
             embeds: [embed],
