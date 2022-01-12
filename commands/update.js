@@ -43,8 +43,6 @@ module.exports = {
                 .addChannelType(ChannelType.GuildVoice)
         ),
     
-    guildCommand: true,
-    
     async execute(interaction) {
         // Get and parse options
         const name             = interaction.options.getString('name');

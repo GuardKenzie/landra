@@ -118,8 +118,6 @@ module.exports = {
                 )
 
         ),
-    
-    guildCommand: true,
 
     async execute(interaction) {
         // Init
