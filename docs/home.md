@@ -15,6 +15,7 @@
 - Events can be scheduled as one-time, weekly or monthly
 - Event announcement widgets
 - Cute emojis!
+- Integration with guild events
 
 ## Getting started
 After inviting Landra to your guild, run

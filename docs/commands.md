@@ -33,13 +33,14 @@ This command schedules new events.
 
 #### Usage
 ```discord
-/schedule name: date: description:  |  recurring:
+/schedule name: date: description:  |  recurring: channel:
 ```
 
 - `name` is the name for the event.
 - `date` is when the event will first take place. The date format is `YYYY/MM/DD hh:mm`.
 - `description` is the description for the event.
 - `recurring` dictates how often the event should repeat. If this argument is not supplied, the event will only happen once.
+- `channel` does two things: Adds a voice channel for the event into the events list and (if Landra has permission) creates a discord event an hour before the event starts.
 
 #### Note
 You will have to refresh the events list to see the new event.
@@ -73,6 +74,7 @@ This command allows you to update an event's description, name, date or change h
 - `date` is when the event will first take place. The date format is `YYYY/MM/DD hh:mm`
 - `description` is the description for the event
 - `recurring` dictates how often the event should repeat. If this argument is not supplied, the event will only happen once.
+- `channel` does two things: Adds a voice channel for the event into the events list and (if Landra has permission) creates a discord event an hour before the event starts.
 
 Once you have executed the command, the bot will let you pick which event you want to apply the changes to.
 
