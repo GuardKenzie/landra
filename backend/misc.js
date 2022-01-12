@@ -80,19 +80,32 @@ async function announcementEmbed(event) {
     // Get food emoji
     const emoji = foodEmoji(event.event_id);
 
+    // Init fields
+    const fields = []
+
+    // push voice channel if needed
+    if (event.voice_channel) {
+        fields.push({
+            name: "Voice channel",
+            value: `<#${event.voice_channel}>`
+        });
+    }
+
+    fields.push(
+        {
+            name:   `Party (${party_count})`,
+            value:  display_names.join("\n"),
+            inline: false
+        }
+    )
+
     // Create embed for announcement
     const embed = new MessageEmbed()
         .setTitle(`${emoji}⠀${event.name} (${date_string})`)
         .setDescription(event.description)
         .setThumbnail(`https://a.nowhere/${event.event_id}.png`)
         .setColor(colour)
-        .addFields(
-            {
-                name:   `Party (${party_count})`,
-                value:  display_names.join("\n"),
-                inline: false
-            }
-        );
+        .addFields(fields);
     
     return embed;
 }
