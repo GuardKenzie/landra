@@ -19,6 +19,7 @@ module.exports = {
         const date_string        = embed_fields.filter(field => field.name == "New date").map(field => field.value);
         const description        = embed_fields.filter(field => field.name == "New description").map(field => field.value);
         let   recurring_string   = embed_fields.filter(field => field.name == "Recurring").map(field => field.value);
+        const channel            = embed_fields.filter(field => field.name == "Voice channel").map(field => field.value);
 
         // Init update data
         const update_data = {}
@@ -51,10 +52,12 @@ module.exports = {
         const date = date_status.date.toDate();
 
         // Set the required attributes of update_data
-        if (name.length > 0)          update_data.name        = name[0];
-        if (description.length > 0)   update_data.description = description[0];
-        if (date_string.length > 0)   update_data.date        = date;
-                                      update_data.recurring   = recurring;
+        if (name.length > 0)          update_data.name          = name[0];
+        if (description.length > 0)   update_data.description   = description[0];
+        if (date_string.length > 0)   update_data.date          = date;
+                                      update_data.recurring     = recurring;
+        if (channel.length > 0)       update_data.voice_channel = channel[0].slice(2, -1);
+
 
         // Update the event
         await events_handler.updateEvent(event_id, update_data);
