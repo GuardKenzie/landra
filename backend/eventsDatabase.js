@@ -4,6 +4,10 @@ const { getNthWeekday, whichNthWeekday } = require('./getNthWeekday');
 
 // A class that handles all database operations. Methods:
 
+const DEFAULT_CONFIG = {
+    discord_events: false
+}
+
 class EventsHandler {
     constructor() {
         /*
@@ -52,11 +56,20 @@ class EventsHandler {
             offset:      Sequelize.INTEGER
         })
 
+        this.Config = this.sequelize.define('config', {
+            guild_id: {
+                type: Sequelize.STRING,
+                unique: true
+            },
+            discord_events: Sequelize.BOOLEAN
+        });
+
         this.Users.sync();
         this.Events.sync();
         this.Channels.sync();
         this.Roles.sync();
         this.TimeOffsets.sync();
+        this.Config.sync();
     }
 
     async newEvent(guild, name, description, date, recurring, channel) {
@@ -469,6 +482,28 @@ class EventsHandler {
             guild_id: guild.id,
             offset: offset
         });
+    }
+
+    async setConfig(guild, config) {
+        // Sets the configuration for a guild
+        config.guild_id = guild.id;
+        const resp = await this.Config.upsert(config);
+    }
+
+    async getConfig(guild) {
+        // Returns the configuration for a guild
+        const config = await this.Config.findOne({
+            where: {
+                guild_id: guild.id
+            }
+        }).then(config => config.get({ plain: true }));
+
+        if (config === null) {
+            await this.setConfig(guild, DEFAULT_CONFIG);
+            return DEFAULT_CONFIG;
+        }
+
+        return config;
     }
 }
 

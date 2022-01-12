@@ -117,7 +117,21 @@ module.exports = {
                         })())
                 )
 
+        )
+        
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('discord_events')
+                .setDescription('Integrate the bot\'s events with Discord\'s scheduled events')
+                .addBooleanOption(option =>
+                    option
+                        .setName('value')
+                        .setDescription('True for integrating, false for disabling the integration')
+                        .setRequired(true)
+                )
         ),
+    
+    guildCommand: true,
 
     async execute(interaction) {
         // Init
@@ -194,6 +208,33 @@ module.exports = {
 
         }
 
+        // Discord integration command
+        if (subcommand == "discord_events") {
+            // Get current config
+            const config = await events_handler.getConfig(interaction.guild)
+            const set_value = interaction.options.getBoolean("value");
+
+            // update config
+            config.discord_events = set_value;
+
+            await events_handler.setConfig(interaction.guild, config);
+
+            const print_value = set_value
+                ? 'on'
+                : 'off';
+
+            // Get permissions
+            const my_perms = interaction.guild.me.permissions
+
+            const permission_notice = set_value && !my_perms.has('MANAGE_EVENTS')
+                ? ', however, I do not have permissions to create guild events so no discord events will be created until then. The events list will still work as usual'
+                : '';
+
+            await interaction.reply({
+                content: `Integration with Discord events turned ${print_value}${permission_notice}!`
+            }).catch(console.error);
+        }
+
         // Print config
         if (subcommand == "print") {
             // init embed
@@ -239,6 +280,12 @@ module.exports = {
 
             // Create roles field
             embed.addField("Roles that can manage events", role_mentions.join("\n"));
+
+            // Discord integration
+            const discord_events = await events_handler.getConfig(interaction.guild).then(
+                config => config.discord_events);
+
+            embed.addField("Integrate with Discord events", `\`${discord_events.toString()}\``)
 
             // Send embed
             await interaction.reply({

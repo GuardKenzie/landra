@@ -304,26 +304,37 @@ async function postEventNotifications(client) {
 
             // Check if the guild wants proper discord events
             // TODO: Check for permission
-            //       Check for config
-            const guild_event_manager = guild.scheduledEvents;
 
-            const voice_channel = await guild.channels.fetch(entry.voice_channel)
-                .catch(() => {return null});
+            // Get config
+            const config = await events_handler.getConfig(guild);
 
-            const entity_type = entry.voice_channel === null
-                ? "NONE"
-                : "VOICE"
+            // Get permissions
+            const permissions = guild.me.permissions
 
-            await guild_event_manager.create(
-                {
-                    name: entry.name,
-                    description: entry.description,
-                    scheduledStartTime: entry.date,
-                    privacyLevel: "GUILD_ONLY",
-                    entityType: entity_type,
-                    channel: voice_channel,
+            if (config.discord_events && permissions.has('MANAGE_EVENTS')) {
+                // Get event manager
+                const guild_event_manager = guild.scheduledEvents;
+
+                // Find the voice channel
+                const voice_channel = await guild.channels.fetch(entry.voice_channel)
+                    .catch(() => { return null });
+
+
+                if (voice_channel) {
+                    // Init the event
+                    const guild_event = {
+                        name: entry.name,
+                        description: entry.description,
+                        scheduledStartTime: entry.date,
+                        privacyLevel: 'GUILD_ONLY',
+                        entityType: 'VOICE',
+                        channel: voice_channel
+                    }
+
+                    // Create event
+                    await guild_event_manager.create(guild_event);
                 }
-            )
+            }
 
 
             // Send message
