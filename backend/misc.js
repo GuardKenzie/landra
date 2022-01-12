@@ -112,7 +112,8 @@ async function generateNotification(entry, guild, type) {
         mentions.push(`<@${user_id}>`);
     }
 
-    const display_names = mentions;
+    // Copy mentions
+    const display_names = [...mentions];
 
     // Party count
     const party_count = display_names.length
