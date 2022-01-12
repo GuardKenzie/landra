@@ -302,16 +302,11 @@ async function postEventNotifications(client) {
         for (entry of events_in_hour) {
             const message_data = await generateNotification(entry, guild, 1);
 
-            // Check if the guild wants proper discord events
-            // TODO: Check for permission
-
-            // Get config
-            const config = await events_handler.getConfig(guild);
-
             // Get permissions
             const permissions = guild.me.permissions
 
-            if (config.discord_events && permissions.has('MANAGE_EVENTS')) {
+            // Check if the event has a channel associated with it and we have permission
+            if (entry.channel && permissions.has('MANAGE_EVENTS')) {
                 // Get event manager
                 const guild_event_manager = guild.scheduledEvents;
 
