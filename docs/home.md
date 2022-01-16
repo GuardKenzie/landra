@@ -12,7 +12,7 @@
 - A clean, organised overview of all events and the people who have signed up
 - A customisable time offset (`UTC+/-N`)
 - Notifications when events start
-- Events can be scheduled as one-time, weekly or monthly
+- Events can be scheduled as one-time, daily, weekly or monthly
 - Event announcement widgets
 - Cute emojis!
 - Integration with guild events
