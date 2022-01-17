@@ -537,10 +537,6 @@ async function generateEventsList(guild, page) {
 
         // Get timestamp
         const timestamp = `<t:${Math.round(event_entry.date / 1000)}>`
-        
-        console.log(offset_date.getHours() + time_offset)
-        console.log(offset_date)
-        console.log(event_entry.date)
 
         // Get food emoji
         const emoji = foodEmoji(event_entry.event_id);
