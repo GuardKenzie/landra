@@ -76,12 +76,16 @@ async function announcementEmbed(event) {
         :   "MMM Do [at] kk:mm"
 
     // Get time offset
-    event.date.setHours(event.date.getHours() + time_offset);
+    const offset_date = new Date(event.date);
+    offset_date.setHours(offset_date.getHours() + time_offset);
 
-    const date_string = moment(event.date).format(date_format);
+    const date_string = moment(offset_date).format(date_format);
     
     // Get food emoji
     const emoji = foodEmoji(event.event_id);
+
+    // Get timestamp
+    const timestamp = `<t:${Math.round(event.date / 1000)}>`
 
     // Init fields
     const fields = []
@@ -89,10 +93,17 @@ async function announcementEmbed(event) {
     // push voice channel if needed
     if (event.voice_channel) {
         fields.push({
-            name: "Voice channel",
+            name:  "Voice channel",
             value: `<#${event.voice_channel}>`
         });
     }
+
+    fields.push(
+        {
+            name:  "Your time",
+            value: timestamp
+        }
+    )
 
     fields.push(
         {
@@ -241,7 +252,7 @@ async function postDailyNotifications(client) {
         // Aggregate all messages
         const message_contents = [":envelope:  **__TODAY'S SCHEDULE__**  :envelope:"]
         for (entry of all_events) {
-            const offset_date = entry.date
+            const offset_date = new Date(entry.date)
             offset_date.setHours(offset_date.getHours() + time_offset)
 
             const date = moment(offset_date)
@@ -519,10 +530,18 @@ async function generateEventsList(guild, page) {
             :   "MMM Do [at] kk:mm"
 
         // Get time offset
-        event_entry.date.setHours(event_entry.date.getHours() + time_offset);
+        const offset_date = new Date(event_entry.date);
+        offset_date.setHours(offset_date.getHours() + time_offset);
 
-        const date_string = moment(event_entry.date).format(date_format);
+        const date_string = moment(offset_date).format(date_format);
+
+        // Get timestamp
+        const timestamp = `<t:${Math.round(event_entry.date / 1000)}>`
         
+        console.log(offset_date.getHours() + time_offset)
+        console.log(offset_date)
+        console.log(event_entry.date)
+
         // Get food emoji
         const emoji = foodEmoji(event_entry.event_id);
 
@@ -532,10 +551,13 @@ async function generateEventsList(guild, page) {
             display_names.push(`<#${event_entry.voice_channel}>`)
         }
 
+        display_names.push("\n**Your time**")
+        display_names.push(timestamp)
+
         const fields = [
             {
                 name: `${emoji}⠀${event_entry.name} (${date_string})`, 
-                value: event_entry.description, 
+                value: `${event_entry.description}`, 
                 inline: true
             },
             {
