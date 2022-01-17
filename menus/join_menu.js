@@ -19,9 +19,6 @@ module.exports = {
 
         // Get the page
         const page = getPageFromEventsList(parent_message)
-            .catch(error => {
-                return 0;
-            });
 
         const embed = await generateEventsList(interaction.guild, page);
 
