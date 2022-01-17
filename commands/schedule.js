@@ -31,6 +31,7 @@ module.exports = {
         .addStringOption(option =>
             option.setName('recurring')
                 .setDescription('How often do you want your event to repeat?')
+                .addChoice("Daily", "daily")
                 .addChoice("Weekly", "weekly")
                 .addChoice("Monthly (by day of the month)", "monthly")
                 .addChoice("Monthly (by weekday)", "monthly_by_weekday")

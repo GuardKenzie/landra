@@ -58,7 +58,10 @@ async function announcementEmbed(event) {
 
     // Set the appropriate date format
     const date_format = 
-        event.recurring == "weekly" ? (
+        event.recurring == "daily" ? (
+            "[Daily at] kk:mm"
+        )
+        : event.recurring == "weekly" ? (
             "dddd[s at] kk:mm"
         )
         : event.recurring == "monthly" ? (
@@ -485,7 +488,10 @@ async function generateEventsList(guild, page) {
 
         // Set the appropriate date format
         const date_format = 
-            event_entry.recurring == "weekly" ? (
+            event_entry.recurring == "daily" ? (
+                "[Daily at] kk:mm"
+            )
+            : event_entry.recurring == "weekly" ? (
                 "dddd[s at] kk:mm"
             )
             : event_entry.recurring == "monthly" ? (

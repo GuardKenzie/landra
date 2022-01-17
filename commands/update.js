@@ -32,6 +32,7 @@ module.exports = {
             option.setName('recurring')
                 .setDescription('When the event should recurr')
                 .addChoice("Once", "once")
+                .addChoice("Daily", "daily")
                 .addChoice("Weekly", "weekly")
                 .addChoice("Monthly (by day of the month)", "monthly")
                 .addChoice("Monthly (by weekday)", "monthly_by_weekday")

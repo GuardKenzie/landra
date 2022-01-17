@@ -336,7 +336,21 @@ class EventsHandler {
         const party_list = await this.getParty(event_id);
 
         // Check if the event is recurring or not and update date if it is
-        if (event.recurring == "weekly") {
+        if (event.recurring == "daily") {
+            // Date
+            event.date.setDate(event.date.getDate() + 1);
+            await this.updateEvent(event_id, { date: event.date });
+
+            // Kick
+            await this.Users.destroy({
+                where: {
+                    event_id: event_id,
+                    user_id: party_list,
+                }
+            })
+        }
+
+        else if (event.recurring == "weekly") {
             // Date
             event.date.setDate(event.date.getDate() + 7);
             await this.updateEvent(event_id, { date: event.date });
