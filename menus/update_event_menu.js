@@ -58,7 +58,6 @@ module.exports = {
                                       update_data.recurring     = recurring;
         if (channel.length > 0)       update_data.voice_channel = channel[0].slice(2, -1);
 
-
         // Update the event
         await events_handler.updateEvent(event_id, update_data);
 
@@ -66,7 +65,7 @@ module.exports = {
         const my_permissions = interaction.guild.me.permissions
 
         // Create notice if channel is set but I don't have permission
-        const permission_notice = channel && !my_permissions.has('MANAGE_EVENTS')
+        const permission_notice = channel.length > 0 && !my_permissions.has('MANAGE_EVENTS')
             ? 'I notice you set a voice channel for your event but I do not have permission to create discord events in this guild. The event will work as if no channel was specified unless this is changed!'
             : '';
 
