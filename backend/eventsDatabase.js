@@ -405,6 +405,31 @@ class EventsHandler {
         }
     }
 
+    async handlePastEvents() {
+        // current date
+        const now = new Date();
+
+        // Fetch all events that have happened in the past
+        const past_events = await this.Events.findAll({
+            attributes: ["event_id"],
+            where: {
+                date: {
+                    [Op.lt]: now
+                }
+            }
+        }).then(
+            past_events => past_events.map(
+                event => event.event_id
+            )
+        )
+
+        // Handle all the events
+        for (const event_id of past_events) {
+            console.log(`Handling past event ${event_id}`)
+            await this.handleEventNotification(event_id);
+        }
+    }
+
 
     async getAllRoles(guild) {
         // Gets all the roles of a guild

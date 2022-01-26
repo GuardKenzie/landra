@@ -28,6 +28,7 @@ module.exports = {
 		console.log()
 		console.log(`Keeping track of ${event_count} events in ${guild_count} guilds`)
 		
+		
 		// If for some reason we are checking a channel in a guild we are no longer
         // a member of, we purge that guild from our database and skip it
 		const all_guild_ids = all_guilds.map(guild => guild.id)
@@ -40,6 +41,11 @@ module.exports = {
 				await events_handler.purgeGuild(entry.guild_id);
 			}
 		}
+
+		// Handle past events
+		console.log("\nHandling past events")
+		await events_handler.handlePastEvents();
+		console.log("Done!")
 
 		console.log("\nStarting loops")
 		// Start event notification loop
