@@ -241,7 +241,6 @@ async function postDailyNotifications(client) {
 
         // Get tomorrow
         const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1)
         tomorrow.setHours(tomorrow.getHours() + 14)
 
         // Get all events happening today
