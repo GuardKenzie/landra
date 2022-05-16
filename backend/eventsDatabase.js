@@ -366,6 +366,7 @@ class EventsHandler {
                 where: {
                     event_id: event_id,
                     user_id: party_list,
+                    permanent: false
                 }
             })
         }
