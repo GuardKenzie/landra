@@ -36,7 +36,12 @@ class EventsHandler {
 
         this.Users = this.sequelize.define('users', {
             user_id:     Sequelize.STRING,
-            event_id:    Sequelize.STRING
+            event_id:    Sequelize.STRING,
+
+            permanent: {
+                type:         Sequelize.BOOLEAN,
+                defaultValue: false
+            }
         });
 
         this.Roles = this.sequelize.define('roles', {
