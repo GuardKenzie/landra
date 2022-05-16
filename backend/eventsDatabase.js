@@ -155,6 +155,21 @@ class EventsHandler {
         return events.map(event => event.event_id);
     }
 
+    async makeJoinPermanent(user, event_id) {
+        // Edit entry for event id so permanent is true
+        await this.Users.update(
+            {
+                permanent: true
+            },
+            {
+                where: {
+                    user_id: user.id,
+                    event_id: event_id
+                }
+            }
+        )
+    }
+
 
     async joinEvent(user, event_id) {
         // Add the user with user_id to the event with event_id
