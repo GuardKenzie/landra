@@ -36,7 +36,12 @@ class EventsHandler {
 
         this.Users = this.sequelize.define('users', {
             user_id:     Sequelize.STRING,
-            event_id:    Sequelize.STRING
+            event_id:    Sequelize.STRING,
+
+            permanent: {
+                type:         Sequelize.BOOLEAN,
+                defaultValue: false
+            }
         });
 
         this.Roles = this.sequelize.define('roles', {
@@ -148,6 +153,21 @@ class EventsHandler {
         });
 
         return events.map(event => event.event_id);
+    }
+
+    async makeJoinPermanent(user, event_id) {
+        // Edit entry for event id so permanent is true
+        await this.Users.update(
+            {
+                permanent: true
+            },
+            {
+                where: {
+                    user_id: user.id,
+                    event_id: event_id
+                }
+            }
+        )
     }
 
 
@@ -346,6 +366,7 @@ class EventsHandler {
                 where: {
                     event_id: event_id,
                     user_id: party_list,
+                    permanent: false
                 }
             })
         }
