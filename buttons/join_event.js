@@ -14,8 +14,11 @@ module.exports = {
         let event_options = [];
         const all_events = await events_handler.getAllEvents(interaction.guild)
 
+        const all_event_ids = all_events.map(event => event.event_id);
+
         // Get all events that user has joined
-        const joined_events = await events_handler.getEventsOfUser(interaction.member);
+        const joined_events = (await events_handler.getEventsOfUser(interaction.member))
+                .filter(event => all_event_ids.includes(event));
 
         if (joined_events.length == all_events.length) {
             // Check if the user has any events left to join
