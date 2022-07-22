@@ -35,6 +35,7 @@ module.exports = {
                 await command.execute(interaction);
             }
             catch (error) {
+                console.log(`In ${interaction?.guild.name}, channel ${interaction?.channel.name}`)
                 console.error(error);
                 await interaction.editReply({
                     content: "There was an error while executing your command",
@@ -51,6 +52,7 @@ module.exports = {
                 await button.execute(interaction);
             }
             catch (error) {
+                console.log(`In ${interaction?.guild.name}, channel ${interaction?.channel.name}`)
                 console.error(error);
                 /*await interaction.reply({
                     content: "There was an error while executing your button :sad:",
@@ -66,6 +68,7 @@ module.exports = {
                 await select_menu.execute(interaction);
             }
             catch (error) {
+                console.log(`In ${interaction?.guild.name}, channel ${interaction?.channel.name}`)
                 console.error(error);
                 await interaction.editReply({
                     content: "There was an error while executing your selection",
