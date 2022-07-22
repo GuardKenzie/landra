@@ -36,7 +36,7 @@ module.exports = {
 		
         for (const entry of all_channels) {
 			if (!all_guild_ids.includes(entry.guild_id)) {
-				console.log(`Purging ${all_guilds.get(entry.guild_id).name}`)
+				console.log(`Purging guild ${entry.guild_id}`)
 
 				await events_handler.purgeGuild(entry.guild_id);
 			}
