@@ -32,9 +32,6 @@ async function announcementEmbed(event) {
     // Get time offset
     const time_offset = await events_handler.getTimeOffset({ id: event.guild_id });
 
-    // Update date
-    event.date.setHours(event.date.getHours() + time_offset);
-
     // Get party
     const party_list = await events_handler.getParty(event.event_id);
 
