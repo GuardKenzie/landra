@@ -368,7 +368,10 @@ async function postEventNotifications(client) {
                     }
 
                     // Create event
-                    await guild_event_manager.create(guild_event);
+                    await guild_event_manager.create(guild_event)
+                        .catch(async error => {
+                            await sendErrorHandler(error, guild, channel);
+                        });
                 }
             }
 
