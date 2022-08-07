@@ -379,7 +379,7 @@ async function postEventNotifications(client) {
             // Send message
             await channel.send(message_data)
                 .then(msg => {
-                    setTimeout(() => msg.delete().catch(), 60 * 60 * 1000);
+                    setTimeout(() => msg.delete().catch(console.error), 60 * 60 * 1000);
                 })
                 .catch(async error => {
                     await sendErrorHandler(error, guild, channel);
