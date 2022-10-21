@@ -1,2 +1,4 @@
 - [Home](/)
 - [Commands](commands.md)
+- [Terms of Service](tos.md)
+- [Privacy Policy](pp.md)
