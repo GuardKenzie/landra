@@ -2,7 +2,7 @@
 
 This document details what data Landra stores on you. Landra will only store user inputs which were made with intent towards her - whether that be through a command, or interaction with action rows.
 
-At any time, a user can purge all references to their Discord user id from Landra's database using the [`/purge`](/#/commands?id=purge) command. When removed from your guild, Landra will remove all references to your Guild (including scheduled events, users attending those events, etc.) from her database.
+At any time, a user can purge all references to their Discord user id from Landra's database using the `/purge` command. When removed from your guild, Landra will remove all references to your Guild (including scheduled events, users attending those events, etc.) from her database.
 
 ## What data is stored?
 The following section details what data is stored when users execute the relevant commands or interactions.
@@ -14,12 +14,12 @@ The configuration is used to taylor Landra to your server's needs.
 |------|----------------------|
 | Guild ID | Associates this configuration to your server. |
 | Time offset | If configured, it is used to calculate when event notifications are to be sent, and to allow users to schedule events in their own time zone. |
-| Management role IDs | If configured using the [`/config role`](/#/commands?id=config-role) command, these are used to restrict the certain commands to only be available to users with these roles. |
-| Channel IDs | If configured using the [`/config channel`](/#/commands?id=config-channel) command, they are used to post the relevant notifications in the relevant channels. |
-| Channel types | If configured using the [`/config channel`](/#/commands?id=config-channel) command, they are used to discern what type of notification to post in that channel. |
+| Management role IDs | If configured using the `/config role` command, these are used to restrict the certain commands to only be available to users with these roles. |
+| Channel IDs | If configured using the `/config channel` command, they are used to post the relevant notifications in the relevant channels. |
+| Channel types | If configured using the `/config channel` command, they are used to discern what type of notification to post in that channel. |
 
 ### Scheduling events
-The scheduled events are any events created with the [`/schedule`](/#/commands?id=schedule) command.
+The scheduled events are any events created with the `/schedule` command.
 
 | Data | What is it used for? |
 | ---- | -------------------- |
