@@ -14,7 +14,7 @@ The configuration is used to taylor Landra to your server's needs.
 |------|----------------------|
 | Guild ID | Associates this configuration to your server. |
 | Time offset | If configured, it is used to calculate when event notifications are to be sent, and to allow users to schedule events in their own time zone. |
-| Management role IDs | If configured using the `/config role` command, these are used to restrict the certain commands to only be available to users with these roles. |
+| Management role IDs | If configured using the `/config role` command, these are used to restrict certain commands to only be available to users with these roles. |
 | Channel IDs | If configured using the `/config channel` command, they are used to post the relevant notifications in the relevant channels. |
 | Channel types | If configured using the `/config channel` command, they are used to discern what type of notification to post in that channel. |
 
@@ -25,9 +25,9 @@ The scheduled events are any events created with the `/schedule` command.
 | ---- | -------------------- |
 | Guild ID | Associates this event with your server. |
 | Event ID | A random string representing the event. |
-| Event name | Used to display the event name in event list's, notifications, etc. |
+| Event name | Used to display the event name in event lists, notifications, etc. |
 | Event description | Used to display the event description in event list's, notifications, etc. |
-| Date | Used to display the event date in event list's, notifications, etc. as well as being used to send event notifications. |
+| Date | Used to display the event date in event lists, notifications, etc. as well as being used to send event notifications. |
 | Recurring value | If provided, it is used to calculate when the event will next take place and update the event's date accordingly |
 | Voice channel ID | If provided, it is used to display the relevant voice channel in event lists, notifications, etc. as well as being used to schedule Discord events set to take place in that voice channel |
 
@@ -38,3 +38,4 @@ A user can join an event by interacting with action rows on messages created by 
 | ---- | -------------------- |
 | User ID | Used to create mentions to the user in event lists, notifications, etc. |
 | Event ID | Used to associate a user with an event they have joined. |
+| Permanent join | If joining a recurring event, Landra will ask the user to specify if they want to be kept in the event for when it next takes place. |
