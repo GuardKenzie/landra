@@ -6,7 +6,7 @@
 
 **Landra is a simple event management bot for Discord written in Discord.js.**
 
-Any questions or concerns, please contact `Kenzie#7945` on Discord.
+Any questions or concerns, please contact `@utvarp` on Discord.
 
 ## Features
 - A simple, easy to use, user interface
